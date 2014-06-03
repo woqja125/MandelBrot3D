@@ -7,7 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OpenGL/OpenGL.h>
+#import <GLUT/GLUT.h>
+
+@class JB_MandelModelController;
 
 @interface JB_3DMandelView : NSOpenGLView
-
+{
+	IBOutlet JB_MandelModelController *Data;
+}
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00A569C193D767D008EFFD3 /* JB_2DMandelView.m in Sources */ = {isa = PBXBuildFile; fileRef = D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */; };
+		D00A56A5193D8050008EFFD3 /* JB_MandelModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */; };
 		D0D3752A193D4E4700C3BBE0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D37529193D4E4700C3BBE0 /* Cocoa.framework */; };
 		D0D37534193D4E4700C3BBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0D37532193D4E4700C3BBE0 /* InfoPlist.strings */; };
 		D0D37536193D4E4700C3BBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37535193D4E4700C3BBE0 /* main.m */; };
@@ -19,6 +21,8 @@
 		D0D37552193D4E4700C3BBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0D37550193D4E4700C3BBE0 /* InfoPlist.strings */; };
 		D0D37554193D4E4700C3BBE0 /* MandelBrot3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37553193D4E4700C3BBE0 /* MandelBrot3DTests.m */; };
 		D0D37563193D528A00C3BBE0 /* JB_3DMandelView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */; };
+		D0D37565193D551800C3BBE0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D37564193D551800C3BBE0 /* OpenGL.framework */; };
+		D0D37567193D552400C3BBE0 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D37566193D552400C3BBE0 /* GLUT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +36,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D00A569A193D767D008EFFD3 /* JB_2DMandelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_2DMandelView.h; sourceTree = "<group>"; };
+		D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_2DMandelView.m; sourceTree = "<group>"; };
+		D00A56A3193D8050008EFFD3 /* JB_MandelModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_MandelModelController.h; sourceTree = "<group>"; };
+		D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_MandelModelController.m; sourceTree = "<group>"; };
 		D0D37526193D4E4700C3BBE0 /* MandelBrot3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MandelBrot3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D37529193D4E4700C3BBE0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0D3752C193D4E4700C3BBE0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -53,6 +61,8 @@
 		D0D37553193D4E4700C3BBE0 /* MandelBrot3DTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MandelBrot3DTests.m; sourceTree = "<group>"; };
 		D0D37561193D528A00C3BBE0 /* JB_3DMandelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_3DMandelView.h; sourceTree = "<group>"; };
 		D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_3DMandelView.m; sourceTree = "<group>"; };
+		D0D37564193D551800C3BBE0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		D0D37566193D552400C3BBE0 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +71,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0D3752A193D4E4700C3BBE0 /* Cocoa.framework in Frameworks */,
+				D0D37565193D551800C3BBE0 /* OpenGL.framework in Frameworks */,
+				D0D37567193D552400C3BBE0 /* GLUT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +110,8 @@
 		D0D37528193D4E4700C3BBE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0D37566193D552400C3BBE0 /* GLUT.framework */,
+				D0D37564193D551800C3BBE0 /* OpenGL.framework */,
 				D0D37529193D4E4700C3BBE0 /* Cocoa.framework */,
 				D0D37548193D4E4700C3BBE0 /* XCTest.framework */,
 				D0D3752B193D4E4700C3BBE0 /* Other Frameworks */,
@@ -120,9 +134,13 @@
 			children = (
 				D0D3753B193D4E4700C3BBE0 /* AppDelegate.h */,
 				D0D3753C193D4E4700C3BBE0 /* AppDelegate.m */,
-				D0D3753E193D4E4700C3BBE0 /* MainMenu.xib */,
+				D00A569A193D767D008EFFD3 /* JB_2DMandelView.h */,
+				D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */,
 				D0D37561193D528A00C3BBE0 /* JB_3DMandelView.h */,
 				D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */,
+				D00A56A3193D8050008EFFD3 /* JB_MandelModelController.h */,
+				D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */,
+				D0D3753E193D4E4700C3BBE0 /* MainMenu.xib */,
 				D0D37541193D4E4700C3BBE0 /* Images.xcassets */,
 				D0D37530193D4E4700C3BBE0 /* Supporting Files */,
 			);
@@ -258,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0D37563193D528A00C3BBE0 /* JB_3DMandelView.m in Sources */,
+				D00A56A5193D8050008EFFD3 /* JB_MandelModelController.m in Sources */,
+				D00A569C193D767D008EFFD3 /* JB_2DMandelView.m in Sources */,
 				D0D3753D193D4E4700C3BBE0 /* AppDelegate.m in Sources */,
 				D0D37536193D4E4700C3BBE0 /* main.m in Sources */,
 			);
