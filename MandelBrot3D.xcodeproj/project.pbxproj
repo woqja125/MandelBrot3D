@@ -18,6 +18,7 @@
 		D0D3754A193D4E4700C3BBE0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D37529193D4E4700C3BBE0 /* Cocoa.framework */; };
 		D0D37552193D4E4700C3BBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0D37550193D4E4700C3BBE0 /* InfoPlist.strings */; };
 		D0D37554193D4E4700C3BBE0 /* MandelBrot3DTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37553193D4E4700C3BBE0 /* MandelBrot3DTests.m */; };
+		D0D37563193D528A00C3BBE0 /* JB_3DMandelView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,8 @@
 		D0D3754F193D4E4700C3BBE0 /* MandelBrot3DTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MandelBrot3DTests-Info.plist"; sourceTree = "<group>"; };
 		D0D37551193D4E4700C3BBE0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D0D37553193D4E4700C3BBE0 /* MandelBrot3DTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MandelBrot3DTests.m; sourceTree = "<group>"; };
+		D0D37561193D528A00C3BBE0 /* JB_3DMandelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_3DMandelView.h; sourceTree = "<group>"; };
+		D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_3DMandelView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 				D0D3753B193D4E4700C3BBE0 /* AppDelegate.h */,
 				D0D3753C193D4E4700C3BBE0 /* AppDelegate.m */,
 				D0D3753E193D4E4700C3BBE0 /* MainMenu.xib */,
+				D0D37561193D528A00C3BBE0 /* JB_3DMandelView.h */,
+				D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */,
 				D0D37541193D4E4700C3BBE0 /* Images.xcassets */,
 				D0D37530193D4E4700C3BBE0 /* Supporting Files */,
 			);
@@ -252,6 +257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0D37563193D528A00C3BBE0 /* JB_3DMandelView.m in Sources */,
 				D0D3753D193D4E4700C3BBE0 /* AppDelegate.m in Sources */,
 				D0D37536193D4E4700C3BBE0 /* main.m in Sources */,
 			);
@@ -466,6 +472,7 @@
 				D0D37559193D4E4800C3BBE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0D3755A193D4E4800C3BBE0 /* Build configuration list for PBXNativeTarget "MandelBrot3DTests" */ = {
 			isa = XCConfigurationList;
@@ -474,6 +481,7 @@
 				D0D3755C193D4E4800C3BBE0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
