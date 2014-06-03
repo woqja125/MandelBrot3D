@@ -27,6 +27,7 @@ typedef struct
 {
 	NSPoint Origin, End, Data[801][601];
 	int Iter[801][601];
+	RGBA Color[801][601];
 	double dx, dy;
 	
 	NSThread *CalcThread;

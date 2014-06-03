@@ -47,6 +47,8 @@ const int Height = 600;
 			Data[i][j].x = Origin.x + dx*i;
 			Data[i][j].y = Origin.y + dy*j;
 			Iter[i][j] = -1;
+			Color[i][j].a = 1;
+			Color[i][j].r = Color[i][j].g = Color[i][j].b = 0;
 		}
 	}
 	DataChanged = true;
@@ -77,6 +79,14 @@ const int Height = 600;
 				if(X*X+Y*Y >= 16)
 				{
 					Iter[i][j] = iter;
+					double H = iter - log2(log(sqrt(X*X+Y*Y))/log(1000));
+					H *= pow(2, End.x - Origin.x)*0.001;
+					H = H - (int)H;
+					HSV tmp;
+					tmp.h = H*360;
+					tmp.s = 1;
+					tmp.v = 1;
+					Color[i][j] = [self RGBfromHSV:tmp];
 					DataChanged = true;
 				}
 			}
@@ -107,18 +117,7 @@ const int Height = 600;
 
 -(RGBA)getColor:(int)x :(int)y
 {
-	double X = Data[x][y].x;
-	double Y = Data[x][y].y;
-	double H = Iter[x][y] - log2(log(sqrt(X*X+Y*Y))/log(1000));
-	H *= pow(2, End.x - Origin.x)*0.001;
-	H = H - (int)H;
-	HSV tmp;
-	tmp.h = H*360;
-	tmp.s = 1;
-	tmp.v = 1;
-	RGBA t;
-	t = [self RGBfromHSV:tmp];
-	return t;
+	return Color[x][y];
 }
 
 - (RGBA)RGBfromHSV:(HSV)value

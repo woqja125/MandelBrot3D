@@ -22,6 +22,8 @@
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
+	magni = 1;
+	Tx = Ty = Tz = 0;
 }
 
 -(void)keyDown:(NSEvent *)theEvent
@@ -30,54 +32,79 @@
 	switch(t)
 	{
 		case 126: //key UP
+			Ty-=2;
 			break;
 		case 124: //key Right
+			Tx-=2;
 			break;
 		case 125 : //key Down
+			Ty+=2;
 			break;
 		case 123 : //key Left
+			Tx+=2;
 			break;
 	}
-	printf("%d ", t);
+	[self setNeedsDisplay:true];
+}
+
+-(void)scrollWheel:(NSEvent *)theEvent
+{
+	magni *= [theEvent deltaY]*0.01 + 1;
+	[self setNeedsDisplay:true];
 }
 
 -(void)prepareOpenGL
 {
-	glOrtho(0, 400, 0, 300, -100000, 100000);
+	glDisable(GL_DEPTH_TEST);
+	glOrtho(-200, 200, -150, 150, 100, -100);
+}
+
+-(void)drawDot:(double)x :(double)y
+{
+	RGBA t = [Data getColor:x*2 :y*2];
+	glColor3d(t.r, t.g, t.b);
+	glVertex3d(x-200,	y-150,	log([Data getNum:x*2 :y*2]+2));
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
+	glClearColor(1, 1, 1, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_TRIANGLES);
+	
+	glPushMatrix();
+	
+	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+	
+	glScaled(magni, magni, 1);
+	glTranslated(Tx, Ty, Tz);
+	
+	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
 		int d = [Data getNum:i*2:j*2];
-		if(d==-1) continue;
-		else
 		{
-			RGBA t = [Data getColor:i*2 :j*2];
-			glColor3d(t.r, t.g, t.b);
+			glBegin(GL_TRIANGLE_FAN);
+			[self drawDot:i+0.5 :j+0.5];
 			
-			glVertex3d(i, j, [Data getNum:i*2 :j*2]);
-			glVertex3d(i+1, j, [Data getNum:i*2+2 :j*2]);
-			glVertex3d(i+0.5, j+0.5, [Data getNum:i*2+1 :j*2+1]);
+			[self drawDot:i :j];
+			[self drawDot:i+1 :j];
 			
-			glVertex3d(i, j, [Data getNum:i*2 :j*2]);
-			glVertex3d(i, j+1, [Data getNum:i*2 :j*2+2]);
-			glVertex3d(i+0.5, j+0.5, [Data getNum:i*2+1 :j*2+1]);
+			[self drawDot:i :j];
+			[self drawDot:i :j+1];
 			
-			glVertex3d(i+0.5, j+0.5, [Data getNum:i*2+1 :j*2+1]);
-			glVertex3d(i+1, j, [Data getNum:i*2+2 :j*2]);
-			glVertex3d(i+1, j+1, [Data getNum:i*2+2 :j*2+2]);
+			[self drawDot:i+1 :j];
+			[self drawDot:i+1 :j+1];
 			
-			glVertex3d(i+0.5, j+0.5, [Data getNum:i*2+1 :j*2+1]);
-			glVertex3d(i, j+1, [Data getNum:i*2 :j*2+2]);
-			glVertex3d(i+1, j+1, [Data getNum:i*2+2 :j*2+2]);
+			[self drawDot:i :j+1];
+			[self drawDot:i+1 :j+1];
+			glEnd();
+			
 		}
 	}
-	glEnd();
+	
+	glPopMatrix();
+	
 	glFlush();
 }
 

@@ -15,5 +15,8 @@
 @interface JB_3DMandelView : NSOpenGLView
 {
 	IBOutlet JB_MandelModelController *Data;
+	double magni, Tx, Ty, Tz;
 }
+
+- (id)initWithFrame:(NSRect)frame;
 @end

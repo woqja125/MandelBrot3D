@@ -17,4 +17,5 @@
 {
 	IBOutlet JB_MandelModelController *Data;
 }
+- (id)initWithFrame:(NSRect)frame;
 @end
