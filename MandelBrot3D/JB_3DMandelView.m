@@ -24,6 +24,7 @@
 	[self.window makeFirstResponder:self];
 	magni = 1;
 	Tx = Ty = Tz = 0;
+	xRotAng = yRotAng = 0;
 }
 
 -(void)keyDown:(NSEvent *)theEvent
@@ -53,32 +54,52 @@
 	[self setNeedsDisplay:true];
 }
 
+-(void)mouseDown:(NSEvent *)theEvent
+{
+	pMouseClicked = [theEvent locationInWindow];
+}
+
+-(void)mouseDragged:(NSEvent *)theEvent
+{
+	NSPoint tmp = [theEvent locationInWindow];
+	double dx = tmp.x - pMouseClicked.x;
+	double dy = tmp.y - pMouseClicked.y;
+	xRotAng -= dx/(self.frame.size.width)*60;
+	yRotAng += dy/(self.frame.size.height)*60;
+	pMouseClicked = tmp;
+	[self setNeedsDisplay:true];
+}
+
 -(void)prepareOpenGL
 {
-	glDisable(GL_DEPTH_TEST);
-	glOrtho(-200, 200, -150, 150, 100, -100);
+	glEnable(GL_DEPTH_TEST);
+//	GLKMatrix4MakePerspective();
+//	gluPerspective(45, 4/3, 1, 10);
+	glFrustum(-200, 200, -150, 150,100,300);
 }
 
 -(void)drawDot:(double)x :(double)y
 {
 	RGBA t = [Data getColor:x*2 :y*2];
 	glColor3d(t.r, t.g, t.b);
-	glVertex3d(x-200,	y-150,	log([Data getNum:x*2 :y*2]+2));
+	glVertex3d(x-200,	y-150,	(([Data getNum:x*2 :y*2]+2))/100);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
 	glClearColor(1, 1, 1, 1);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glPushMatrix();
 	
 	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
 	
 	glScaled(magni, magni, 1);
-	glTranslated(Tx, Ty, Tz);
+	glTranslated(Tx, Ty, -200);
 	
+	glRotated(xRotAng, 0, 1, 0);
+	glRotated(yRotAng, 1, 0, 0);
 	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
