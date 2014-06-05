@@ -28,15 +28,19 @@ typedef struct
 	NSPoint Origin, End, Data[801][601];
 	int Iter[801][601];
 	RGBA Color[801][601];
+	double V[801][601];
 	double dx, dy;
 	
 	NSThread *CalcThread;
 	bool keepThread;
 	
 	bool DataChanged;
+	int SizeChangedNum;
 	
 	IBOutlet NSOpenGLView *View1, *View2;
 }
 -(int)getNum:(int)x :(int)y;
 -(RGBA)getColor:(int)x :(int)y;
+-(double)getV:(int)x :(int)y;
+-(void)newRange:(NSPoint)O :(NSPoint)E;
 @end

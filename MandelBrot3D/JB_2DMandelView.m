@@ -28,6 +28,8 @@
 {
     [super drawRect:dirtyRect];
 	glClear(GL_COLOR_BUFFER_BIT);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBegin(GL_POINTS);
 	{
 		for(int i=0; i<400; i++)for(int j=0; j<300; j++)
@@ -43,7 +45,139 @@
 		}
 	}
 	glEnd();
+	
+	NSPoint MO, ME;
+	int dx = MouseEnd.x - MouseStart.x;
+	dx /= 4;
+	int dy = MouseEnd.y - MouseStart.y;
+	dy /= 3;
+	int g; if(abs(dx)>abs(dy))g = abs(dy);else g = abs(dx);
+	if(dx>0) MouseEnd.x = MouseStart.x + g*4;
+	else MouseEnd.x = MouseStart.x - g*4;
+	if(dy>0) MouseEnd.y = MouseStart.y + g*3;
+	else MouseEnd.y = MouseStart.y - g*3;
+	if(MouseStart.x < MouseEnd.x)
+	{
+		MO.x = MouseStart.x;
+		ME.x = MouseEnd.x;
+	}
+	else
+	{
+		ME.x = MouseStart.x;
+		MO.x = MouseEnd.x;
+	}
+	if(MouseStart.y < MouseEnd.y)
+	{
+		MO.y = MouseStart.y;
+		ME.y = MouseEnd.y;
+	}
+	else
+	{
+		ME.y = MouseStart.y;
+		MO.y = MouseEnd.y;
+	}
+	
+	glBegin(GL_QUADS);
+	
+	glColor4d(0, 1, 1, 0.4);
+	
+	glVertex2d(MouseO.x, MouseO.y);
+	glVertex2d(MouseO.x, MouseE.y);
+	glVertex2d(MouseE.x, MouseE.y);
+	glVertex2d(MouseE.x, MouseO.y);
+	
+
+	glColor4d(0, 0, 1, 0.4);
+	glVertex2d(MO.x, MO.y);
+	glVertex2d(MO.x, ME.y);
+	glVertex2d(ME.x, ME.y);
+	glVertex2d(ME.x, MO.y);
+	
+	glEnd();
+	
 	glFlush();
+}
+
+-(void)mouseDown:(NSEvent *)theEvent
+{
+	MouseEnd = MouseStart = [theEvent locationInWindow];
+}
+-(void)mouseDragged:(NSEvent *)theEvent
+{
+	MouseEnd = [theEvent locationInWindow];
+	if(MouseStart.x < MouseEnd.x)
+	{
+		MouseO.x = MouseStart.x;
+		MouseE.x = MouseEnd.x;
+	}
+	else
+	{
+		MouseE.x = MouseStart.x;
+		MouseO.x = MouseEnd.x;
+	}
+	if(MouseStart.y < MouseEnd.y)
+	{
+		MouseO.y = MouseStart.y;
+		MouseE.y = MouseEnd.y;
+	}
+	else
+	{
+		MouseE.y = MouseStart.y;
+		MouseO.y = MouseEnd.y;
+	}
+	[self setNeedsDisplay:true];
+}
+-(void)rightMouseDown:(NSEvent *)theEvent
+{
+	/*
+	Origin.x = -2.7;
+	Origin.y = -1.5;
+	End.x = 1.3;
+	End.y = 1.5;
+	SizeChangedNum++;
+	SizeChkThread = [[NSThread alloc] initWithTarget:self selector:@selector(CheckImageDataChanged:) object:[[NSNumber alloc] initWithLongLong:SizeChangedNum]];
+	[SizeChkThread start];
+	 */
+}
+-(void)mouseUp:(NSEvent *)theEvent
+{
+	if(MouseEnd.x == MouseStart.x || MouseEnd.y == MouseStart.y) return;
+	MouseEnd = [theEvent locationInWindow];
+	int dx = MouseEnd.x - MouseStart.x;
+	dx /= 4;
+	int dy = MouseEnd.y - MouseStart.y;
+	dy /= 3;
+	int g; if(abs(dx)>abs(dy))g = abs(dy);else g = abs(dx);
+	if(dx>0) MouseEnd.x = MouseStart.x + g*4;
+	else MouseEnd.x = MouseStart.x - g*4;
+	if(dy>0) MouseEnd.y = MouseStart.y + g*3;
+	else MouseEnd.y = MouseStart.y - g*3;
+	if(MouseStart.x < MouseEnd.x)
+	{
+		MouseO.x = MouseStart.x;
+		MouseE.x = MouseEnd.x;
+	}
+	else
+	{
+		MouseE.x = MouseStart.x;
+		MouseO.x = MouseEnd.x;
+	}
+	if(MouseStart.y < MouseEnd.y)
+	{
+		MouseO.y = MouseStart.y;
+		MouseE.y = MouseEnd.y;
+	}
+	else
+	{
+		MouseE.y = MouseStart.y;
+		MouseO.y = MouseEnd.y;
+	}
+	
+	[Data newRange:MouseO :MouseE];
+	
+	MouseStart = MouseEnd = MouseO = MouseE = NSMakePoint(0, 0);
+	
+	
 }
 
 @end

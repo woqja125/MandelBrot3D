@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.17" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.17"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -674,7 +674,6 @@
                 <subviews>
                     <openGLView misplaced="YES" depthSize="24bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9As-ga-iGK" customClass="JB_3DMandelView">
                         <rect key="frame" x="0.0" y="-14" width="817" height="613"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="9As-ga-iGK" secondAttribute="height" multiplier="4:3" id="8D5-Uf-Ila"/>
                         </constraints>
@@ -704,7 +703,6 @@
                 <subviews>
                     <openGLView fixedFrame="YES" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W8v-8y-z0r" customClass="JB_2DMandelView">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <connections>
                             <outlet property="Data" destination="UQE-P5-HU5" id="0jp-6J-0zs"/>
                         </connections>

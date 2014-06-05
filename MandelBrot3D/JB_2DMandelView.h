@@ -16,6 +16,8 @@
 @interface JB_2DMandelView : NSOpenGLView
 {
 	IBOutlet JB_MandelModelController *Data;
+	NSPoint MouseStart, MouseEnd;
+	NSPoint MouseO, MouseE;
 }
 - (id)initWithFrame:(NSRect)frame;
 @end

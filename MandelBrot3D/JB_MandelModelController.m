@@ -21,6 +21,7 @@ const int Height = 600;
 		Origin.y = -1.5;
 		End.x = 1.3;
 		End.y = 1.5;
+		SizeChangedNum = 0;
 	}
 	return self;
 }
@@ -47,6 +48,7 @@ const int Height = 600;
 			Data[i][j].x = Origin.x + dx*i;
 			Data[i][j].y = Origin.y + dy*j;
 			Iter[i][j] = -1;
+			V[i][j] = 0;
 			Color[i][j].a = 1;
 			Color[i][j].r = Color[i][j].g = Color[i][j].b = 0;
 		}
@@ -80,6 +82,7 @@ const int Height = 600;
 				{
 					Iter[i][j] = iter;
 					double H = iter - log2(log(sqrt(X*X+Y*Y))/log(1000));
+					V[i][j] = H;
 					H *= pow(2, End.x - Origin.x)*0.001;
 					H = H - (int)H;
 					HSV tmp;
@@ -118,6 +121,43 @@ const int Height = 600;
 -(RGBA)getColor:(int)x :(int)y
 {
 	return Color[x][y];
+}
+
+-(double)getV:(int)x :(int)y
+{
+	return V[x][y];
+}
+
+-(void)newRange:(NSPoint)O :(NSPoint)E
+{
+	NSLog(@"%f %f %f %f", O.x, O.y, E.x, E.y);
+	NSPoint NewO, NewE;
+	NewO.x = Origin.x + (End.x - Origin.x)*O.x/400;
+	NewO.y = Origin.y + (End.y - Origin.y)*O.y/300;
+	NewE.x = Origin.x + (End.x - Origin.x)*E.x/400;
+	NewE.y = Origin.y + (End.y - Origin.y)*E.y/300;
+	Origin = NewO;
+	End = NewE;
+
+	SizeChangedNum++;
+	[NSThread detachNewThreadSelector:@selector(CheckImageDataChanged:) toTarget:self withObject:[[NSNumber alloc] initWithLongLong:SizeChangedNum]];
+	
+	DataChanged = true;
+}
+
+-(void)CheckImageDataChanged:(NSNumber *)t
+{
+	NSLog(@"aa");
+	[NSThread sleepForTimeInterval:0.5];
+	if(SizeChangedNum == [t intValue])
+	{
+		keepThread = false;
+		while([CalcThread isExecuting]);
+		keepThread = true;
+		NSLog(@"aa");
+		CalcThread = [[NSThread alloc] initWithTarget:self selector:@selector(StartNewSet) object:nil];
+		[CalcThread start];
+	}
 }
 
 - (RGBA)RGBfromHSV:(HSV)value
@@ -159,5 +199,6 @@ const int Height = 600;
     }
     return out;
 }
+
 
 @end
