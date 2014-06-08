@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenGL/OpenGL.h>
 #import <GLUT/GLUT.h>
+#import "JB_ArcBall.h"
 
 @class JB_MandelModelController;
 
@@ -18,7 +19,15 @@
 	double magni, Tx, Ty, Tz, xRotAng, yRotAng, zRotAng, HeightRatio;
 	NSPoint pMouseClicked, pRMouseClicked, pCMouseClicked;
 	bool DrawLine;
+	
+	JB_ArcBall *ArcBall;
+	
+	Matrix4fT    Transform;
+	Matrix3fT    LastRot;
+	Matrix3fT    ThisRot;
+
 }
 
 - (id)initWithFrame:(NSRect)frame;
+
 @end

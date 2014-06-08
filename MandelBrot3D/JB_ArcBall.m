@@ -11,7 +11,7 @@
 @implementation JB_ArcBall
 
 
--(id)init :(GLfloat)NewWidth :(GLfloat)NewHeight
+-(id)initWithWidth:(GLfloat)NewWidth Height:(GLfloat)NewHeight
 {
 	self = [super init];
 	if(self)

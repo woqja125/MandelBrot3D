@@ -423,7 +423,7 @@ static void Matrix4fSetRotationFromMatrix3f(Matrix4fT* NewObj, const Matrix3fT* 
 
 }
 
--(id)init :(GLfloat)NewWidth :(GLfloat)NewHeight;
+-(id)initWithWidth:(GLfloat)NewWidth Height:(GLfloat)NewHeight;
 -(void)setBounds :(GLfloat)NewWidth :(GLfloat)NewHeight;
 
 -(void) click :(Point2fT*)NewPt;

@@ -14,7 +14,7 @@
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self) {		
     }
     return self;
 }
@@ -28,6 +28,12 @@
 	xRotAng = yRotAng = zRotAng = 0;
 	HeightRatio = 10;
 	DrawLine = false;
+	
+	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
+	
+	Matrix3fSetIdentity(&LastRot);
+	Matrix3fSetIdentity(&ThisRot);
+	Transform.s.M00 = Transform.s.M11 = Transform.s.M22 = Transform.s.M33 = 1;
 }
 
 -(void)keyDown:(NSEvent *)theEvent
@@ -69,16 +75,41 @@
 -(void)mouseDown:(NSEvent *)theEvent
 {
 	pMouseClicked = [theEvent locationInWindow];
+	LastRot = ThisRot;
+	Point2fT Pt;
+	Pt.s.X = [theEvent locationInWindow].x;
+	Pt.s.Y = self.frame.size.height-[theEvent locationInWindow].y;
+	[ArcBall click:&Pt];
 }
 
 -(void)mouseDragged:(NSEvent *)theEvent
 {
-	NSPoint tmp = [theEvent locationInWindow];
-	double dx = tmp.x - pMouseClicked.x;
-	double dy = tmp.y - pMouseClicked.y;
-	xRotAng += dx/(self.frame.size.width)*60;
-	yRotAng -= dy/(self.frame.size.height)*60;
-	pMouseClicked = tmp;
+	Quat4fT     ThisQuat;
+	
+	Point2fT Pt;
+	Pt.s.X = [theEvent locationInWindow].x;
+	Pt.s.Y = self.frame.size.height-[theEvent locationInWindow].y;
+	
+	[ArcBall drag:&Pt :&ThisQuat];
+	Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);
+	Matrix3fMulMatrix3f(&ThisRot, &LastRot);
+	Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);
+	
+	LastRot = ThisRot;
+	[ArcBall click:&Pt];
+	[self setNeedsDisplay:true];
+}
+
+-(void)mouseUp:(NSEvent *)theEvent
+{
+	Quat4fT     ThisQuat;
+	Point2fT Pt;
+	Pt.s.X = [theEvent locationInWindow].x;
+	Pt.s.Y = self.frame.size.height-[theEvent locationInWindow].y;
+	[ArcBall drag:&Pt :&ThisQuat];
+	Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);
+	Matrix3fMulMatrix3f(&ThisRot, &LastRot);
+	Matrix4fSetRotationFromMatrix3f(&Transform, &ThisRot);
 	[self setNeedsDisplay:true];
 }
 
@@ -90,24 +121,6 @@
 -(void)rightMouseDragged:(NSEvent *)theEvent
 {
 	NSPoint tmp = [theEvent locationInWindow];
-	double pA, A;
-	pA = atan( (pCMouseClicked.y-self.frame.size.height/2) / (pCMouseClicked.x-self.frame.size.width/2));
-	if(pCMouseClicked.x < self.frame.size.width/2) pA+=3.14;
-	A = atan((tmp.y-self.frame.size.height/2)/(tmp.x-self.frame.size.width/2));
-	if(tmp.x < self.frame.size.width/2) A+=3.14;
-	zRotAng += ( -pA + A)/(2*3.14)*360;
-	pCMouseClicked = tmp;
-	[self setNeedsDisplay:true];
-}
-
--(void)otherMouseDown:(NSEvent *)theEvent
-{
-	pCMouseClicked = [theEvent locationInWindow];
-}
-
--(void)otherMouseDragged:(NSEvent *)theEvent
-{
-	NSPoint tmp = [theEvent locationInWindow];
 	double dx = tmp.x - pCMouseClicked.x;
 	double dy = tmp.y - pCMouseClicked.y;
 	Tx += (dx*800/self.frame.size.width)*2.26/magni;
@@ -116,7 +129,7 @@
 	[self setNeedsDisplay:true];
 }
 
--(void)otherMouseUp:(NSEvent *)theEvent
+-(void)rightMouseUp:(NSEvent *)theEvent
 {
 	NSPoint tmp = [theEvent locationInWindow];
 	double dx = tmp.x - pCMouseClicked.x;
@@ -226,10 +239,7 @@
 	glScaled(magni, magni, 1);
 	glTranslated(Tx, Ty, Tz);
 	
-	glRotated(xRotAng, 0, 1, 0);
-	glRotated(yRotAng, 1, 0, 0);
-	glRotated(zRotAng, 0, 0, 1);
-	
+	glMultMatrixf(Transform.M);
 	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
