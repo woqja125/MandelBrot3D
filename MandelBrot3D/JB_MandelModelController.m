@@ -41,16 +41,17 @@ const int Height = 600;
 	dy = End.y - Origin.y;
 	dy /= Height;
 	int i, j;
-	for(i=0; i<Width; i++)
+	for(i=0; i<=Width; i++)
 	{
-		for(j=0; j<Height; j++)
+		for(j=0; j<=Height; j++)
 		{
 			Data[i][j].x = Origin.x + dx*i;
 			Data[i][j].y = Origin.y + dy*j;
 			Iter[i][j] = -1;
 			V[i][j] = 0;
+			S[i][j] = sqrt(Data[i][j].x*Data[i][j].x + Data[i][j].y*Data[i][j].y);
 			Color[i][j].a = 1;
-			Color[i][j].r = Color[i][j].g = Color[i][j].b = 0;
+			Color[i][j].r = Color[i][j].g = Color[i][j].b = 0.7;
 		}
 	}
 	DataChanged = true;
@@ -59,7 +60,7 @@ const int Height = 600;
 
 -(void)Calc
 {
-	for(int iter = 1;; iter++)
+	for(iter = 1; iter; iter++)
 	{
 		for(int i=0; i<=Width; i++)for(int j=0; j<=Height; j++)
 		{
@@ -67,7 +68,7 @@ const int Height = 600;
 			if(Iter[i][j] == -1)
 			{
 				double X, Y, x, y;
-
+				
 				X = Data[i][j].x;
 				Y = Data[i][j].y;
 				
@@ -76,9 +77,14 @@ const int Height = 600;
 				
 				Data[i][j].x = X*X - Y*Y + x;
 				Data[i][j].y = 2*X*Y + y;
+				
 				X = Data[i][j].x;
 				Y = Data[i][j].y;
-				if(X*X+Y*Y >= 16)
+				
+				if( S[i][j] > sqrt(X*X+Y*Y) )
+					S[i][j] = sqrt(X*X+Y*Y);
+				
+				if(X*X+Y*Y >= 1000)
 				{
 					Iter[i][j] = iter;
 					double H = iter - log2(log(sqrt(X*X+Y*Y))/log(1000));
@@ -89,11 +95,14 @@ const int Height = 600;
 					tmp.h = H*360;
 					tmp.s = 1;
 					tmp.v = 1;
-					Color[i][j] = [self RGBfromHSV:tmp];
+					//Color[i][j] = [self RGBfromHSV:tmp];
+					Color[i][j].r = Color[i][j].g = Color[i][j].b = 1;
 					DataChanged = true;
 				}
+				
 			}
 		}
+		//[NSThread sleepForTimeInterval:1.0/30];
 		if(!keepThread) return;
 	}
 }
@@ -123,14 +132,13 @@ const int Height = 600;
 	return Color[x][y];
 }
 
--(double)getV:(int)x :(int)y
+-(double)getH:(int)x :(int)y
 {
-	return V[x][y];
+	return S[x][y];
 }
 
 -(void)newRange:(NSPoint)O :(NSPoint)E
 {
-	NSLog(@"%f %f %f %f", O.x, O.y, E.x, E.y);
 	NSPoint NewO, NewE;
 	NewO.x = Origin.x + (End.x - Origin.x)*O.x/400;
 	NewO.y = Origin.y + (End.y - Origin.y)*O.y/300;
@@ -145,17 +153,27 @@ const int Height = 600;
 	DataChanged = true;
 }
 
+-(void)Reset
+{
+	Origin = NSMakePoint(-2.7, -1.5);
+	End = NSMakePoint(1.3, 1.5);
+	
+	SizeChangedNum++;
+	[NSThread detachNewThreadSelector:@selector(CheckImageDataChanged:) toTarget:self withObject:[[NSNumber alloc] initWithLongLong:SizeChangedNum]];
+	
+	DataChanged = true;
+}
+
 -(void)CheckImageDataChanged:(NSNumber *)t
 {
-	NSLog(@"aa");
 	[NSThread sleepForTimeInterval:0.5];
 	if(SizeChangedNum == [t intValue])
 	{
 		keepThread = false;
 		while([CalcThread isExecuting]);
 		keepThread = true;
-		NSLog(@"aa");
 		CalcThread = [[NSThread alloc] initWithTarget:self selector:@selector(StartNewSet) object:nil];
+		[CalcThread setThreadPriority:0.1];
 		[CalcThread start];
 	}
 }

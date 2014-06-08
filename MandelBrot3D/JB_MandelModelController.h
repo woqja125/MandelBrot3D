@@ -26,9 +26,10 @@ typedef struct
 @interface JB_MandelModelController : NSObject
 {
 	NSPoint Origin, End, Data[801][601];
-	int Iter[801][601];
+	int Iter[801][601], iter;
 	RGBA Color[801][601];
 	double V[801][601];
+	double S[801][601];
 	double dx, dy;
 	
 	NSThread *CalcThread;
@@ -41,6 +42,7 @@ typedef struct
 }
 -(int)getNum:(int)x :(int)y;
 -(RGBA)getColor:(int)x :(int)y;
--(double)getV:(int)x :(int)y;
+-(double)getH:(int)x :(int)y;
 -(void)newRange:(NSPoint)O :(NSPoint)E;
+-(void)Reset;
 @end

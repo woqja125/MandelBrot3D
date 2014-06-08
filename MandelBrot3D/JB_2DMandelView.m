@@ -129,15 +129,8 @@
 }
 -(void)rightMouseDown:(NSEvent *)theEvent
 {
-	/*
-	Origin.x = -2.7;
-	Origin.y = -1.5;
-	End.x = 1.3;
-	End.y = 1.5;
-	SizeChangedNum++;
-	SizeChkThread = [[NSThread alloc] initWithTarget:self selector:@selector(CheckImageDataChanged:) object:[[NSNumber alloc] initWithLongLong:SizeChangedNum]];
-	[SizeChkThread start];
-	 */
+	[Data Reset];
+	 
 }
 -(void)mouseUp:(NSEvent *)theEvent
 {
