@@ -230,7 +230,6 @@
 	glRotated(yRotAng, 1, 0, 0);
 	glRotated(zRotAng, 0, 0, 1);
 	
-	glNormal3f(0, 0, -1);
 	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{

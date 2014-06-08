@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D00A569C193D767D008EFFD3 /* JB_2DMandelView.m in Sources */ = {isa = PBXBuildFile; fileRef = D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */; };
 		D00A56A5193D8050008EFFD3 /* JB_MandelModelController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */; };
+		D027810119446FA70052EAEC /* JB_ArcBall.m in Sources */ = {isa = PBXBuildFile; fileRef = D027810019446FA70052EAEC /* JB_ArcBall.m */; };
 		D0D3752A193D4E4700C3BBE0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0D37529193D4E4700C3BBE0 /* Cocoa.framework */; };
 		D0D37534193D4E4700C3BBE0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0D37532193D4E4700C3BBE0 /* InfoPlist.strings */; };
 		D0D37536193D4E4700C3BBE0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D37535193D4E4700C3BBE0 /* main.m */; };
@@ -40,6 +41,8 @@
 		D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_2DMandelView.m; sourceTree = "<group>"; };
 		D00A56A3193D8050008EFFD3 /* JB_MandelModelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_MandelModelController.h; sourceTree = "<group>"; };
 		D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_MandelModelController.m; sourceTree = "<group>"; };
+		D02780FF19446FA70052EAEC /* JB_ArcBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JB_ArcBall.h; sourceTree = "<group>"; };
+		D027810019446FA70052EAEC /* JB_ArcBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JB_ArcBall.m; sourceTree = "<group>"; };
 		D0D37526193D4E4700C3BBE0 /* MandelBrot3D.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MandelBrot3D.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0D37529193D4E4700C3BBE0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		D0D3752C193D4E4700C3BBE0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -138,6 +141,8 @@
 				D00A569B193D767D008EFFD3 /* JB_2DMandelView.m */,
 				D0D37561193D528A00C3BBE0 /* JB_3DMandelView.h */,
 				D0D37562193D528A00C3BBE0 /* JB_3DMandelView.m */,
+				D02780FF19446FA70052EAEC /* JB_ArcBall.h */,
+				D027810019446FA70052EAEC /* JB_ArcBall.m */,
 				D00A56A3193D8050008EFFD3 /* JB_MandelModelController.h */,
 				D00A56A4193D8050008EFFD3 /* JB_MandelModelController.m */,
 				D0D3753E193D4E4700C3BBE0 /* MainMenu.xib */,
@@ -278,6 +283,7 @@
 				D0D37563193D528A00C3BBE0 /* JB_3DMandelView.m in Sources */,
 				D00A56A5193D8050008EFFD3 /* JB_MandelModelController.m in Sources */,
 				D00A569C193D767D008EFFD3 /* JB_2DMandelView.m in Sources */,
+				D027810119446FA70052EAEC /* JB_ArcBall.m in Sources */,
 				D0D3753D193D4E4700C3BBE0 /* AppDelegate.m in Sources */,
 				D0D37536193D4E4700C3BBE0 /* main.m in Sources */,
 			);
