@@ -727,8 +727,8 @@
                             <action selector="CurveCheckBoxChanged:" target="9As-ga-iGK" id="51B-i9-Gcs"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMn-Ey-SAs">
-                        <rect key="frame" x="1059" y="13" width="137" height="32"/>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMn-Ey-SAs">
+                        <rect key="frame" x="1032" y="13" width="164" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Reset View (R)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1yc-hs-Yej">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -745,13 +745,17 @@
                     <constraint firstItem="Abc-Gu-XSl" firstAttribute="top" secondItem="EFH-IG-u1d" secondAttribute="bottom" constant="10" id="6YN-XY-W97"/>
                     <constraint firstItem="EFH-IG-u1d" firstAttribute="top" secondItem="W8v-8y-z0r" secondAttribute="bottom" constant="10" id="8IU-KZ-qZ5"/>
                     <constraint firstItem="9As-ga-iGK" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="8ik-n4-AkO"/>
+                    <constraint firstAttribute="bottom" secondItem="CMn-Ey-SAs" secondAttribute="bottom" constant="20" id="ADi-Y8-30U"/>
                     <constraint firstItem="W8v-8y-z0r" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="Fdh-dM-o66"/>
                     <constraint firstItem="7Z6-yd-RZh" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="Iil-3q-Agh"/>
+                    <constraint firstAttribute="trailing" secondItem="CMn-Ey-SAs" secondAttribute="trailing" constant="20" id="P3V-ks-VZp"/>
                     <constraint firstItem="EFH-IG-u1d" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="QUs-IP-WmS"/>
+                    <constraint firstItem="CMn-Ey-SAs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="7Z6-yd-RZh" secondAttribute="bottom" id="Y20-eZ-yGS"/>
                     <constraint firstAttribute="bottom" secondItem="9As-ga-iGK" secondAttribute="bottom" id="f2B-KE-qjx"/>
                     <constraint firstItem="Abc-Gu-XSl" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="ggo-xC-uwh"/>
                     <constraint firstAttribute="trailing" secondItem="W8v-8y-z0r" secondAttribute="trailing" id="siR-di-2lz"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="W8v-8y-z0r" secondAttribute="bottom" id="spt-aL-C7u"/>
+                    <constraint firstItem="CMn-Ey-SAs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9As-ga-iGK" secondAttribute="trailing" id="vUp-1R-mb7"/>
                     <constraint firstItem="7Z6-yd-RZh" firstAttribute="top" secondItem="Abc-Gu-XSl" secondAttribute="bottom" constant="10" id="ylQ-v5-OlT"/>
                 </constraints>
             </view>

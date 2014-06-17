@@ -21,6 +21,11 @@
 	return self;
 }
 
+- (void)viewDidMoveToWindow
+{
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowResized:) name:NSWindowDidResizeNotification object:[self window]];
+}
+
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
@@ -29,6 +34,11 @@
 	
 	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
 	
+}
+
+- (void)windowResized:(NSNotification *)notification;
+{
+	[ArcBall setBounds:self.frame.size.width :self.frame.size.height];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
