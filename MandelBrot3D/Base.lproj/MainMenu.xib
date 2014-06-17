@@ -666,32 +666,78 @@
         <window title="MandelBrot 3D" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="1225" height="600"/>
+            <rect key="contentRect" x="335" y="390" width="1210" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1600" height="878"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="1225" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="1210" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <openGLView misplaced="YES" depthSize="24bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9As-ga-iGK" customClass="JB_3DMandelView">
-                        <rect key="frame" x="0.0" y="-14" width="817" height="613"/>
+                    <openGLView depthSize="24bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9As-ga-iGK" customClass="JB_3DMandelView">
+                        <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="9As-ga-iGK" secondAttribute="height" multiplier="4:3" id="8D5-Uf-Ila"/>
                         </constraints>
                         <connections>
+                            <outlet property="ColorCheckBox" destination="Abc-Gu-XSl" id="Man-ta-zTR"/>
                             <outlet property="Data" destination="UQE-P5-HU5" id="TuL-Ag-rCS"/>
+                            <outlet property="LineCheckBox" destination="EFH-IG-u1d" id="AXD-CE-1Gl"/>
                         </connections>
                     </openGLView>
-                    <openGLView fixedFrame="YES" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W8v-8y-z0r" customClass="JB_2DMandelView">
-                        <rect key="frame" x="825" y="299" width="400" height="300"/>
+                    <openGLView useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W8v-8y-z0r" customClass="JB_2DMandelView">
+                        <rect key="frame" x="810" y="300" width="400" height="300"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="400" id="aWd-pH-2Md"/>
+                            <constraint firstAttribute="height" constant="300" id="xit-nO-A4Q"/>
+                        </constraints>
                         <connections>
                             <outlet property="Data" destination="UQE-P5-HU5" id="0jp-6J-0zs"/>
                         </connections>
                     </openGLView>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="EFH-IG-u1d">
+                        <rect key="frame" x="808" y="274" width="385" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Show Line                                                                     (L)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IhA-mo-2PB">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="LineCheckBoxChanged:" target="9As-ga-iGK" id="M9w-Rj-axc"/>
+                        </connections>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="Abc-Gu-XSl">
+                        <rect key="frame" x="808" y="250" width="387" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Show Color                                                                   (C)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cyd-aR-s3v">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="ColorCheckBoxChanged:" target="9As-ga-iGK" id="Ml5-hZ-BHG"/>
+                        </connections>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="7Z6-yd-RZh">
+                        <rect key="frame" x="808" y="226" width="388" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Show Curve on divergence point                                   (D)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Nbv-7M-Oxg">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="9As-ga-iGK" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="0Oq-nA-8Or"/>
+                    <constraint firstItem="W8v-8y-z0r" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="1de-iF-03d"/>
+                    <constraint firstItem="Abc-Gu-XSl" firstAttribute="top" secondItem="EFH-IG-u1d" secondAttribute="bottom" constant="10" id="6YN-XY-W97"/>
+                    <constraint firstItem="EFH-IG-u1d" firstAttribute="top" secondItem="W8v-8y-z0r" secondAttribute="bottom" constant="10" id="8IU-KZ-qZ5"/>
                     <constraint firstItem="9As-ga-iGK" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="8ik-n4-AkO"/>
+                    <constraint firstItem="W8v-8y-z0r" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="Fdh-dM-o66"/>
+                    <constraint firstItem="7Z6-yd-RZh" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="Iil-3q-Agh"/>
+                    <constraint firstItem="EFH-IG-u1d" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="QUs-IP-WmS"/>
                     <constraint firstAttribute="bottom" secondItem="9As-ga-iGK" secondAttribute="bottom" id="f2B-KE-qjx"/>
+                    <constraint firstItem="Abc-Gu-XSl" firstAttribute="leading" secondItem="9As-ga-iGK" secondAttribute="trailing" constant="10" id="ggo-xC-uwh"/>
+                    <constraint firstAttribute="trailing" secondItem="W8v-8y-z0r" secondAttribute="trailing" id="siR-di-2lz"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="W8v-8y-z0r" secondAttribute="bottom" id="spt-aL-C7u"/>
+                    <constraint firstItem="7Z6-yd-RZh" firstAttribute="top" secondItem="Abc-Gu-XSl" secondAttribute="bottom" constant="10" id="ylQ-v5-OlT"/>
                 </constraints>
             </view>
         </window>

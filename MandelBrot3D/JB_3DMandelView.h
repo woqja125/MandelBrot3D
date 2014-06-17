@@ -16,9 +16,12 @@
 @interface JB_3DMandelView : NSOpenGLView
 {
 	IBOutlet JB_MandelModelController *Data;
+	
 	double magni, Tx, Ty, Tz, xRotAng, yRotAng, zRotAng, HeightRatio;
 	NSPoint pMouseClicked, pRMouseClicked, pCMouseClicked;
-	bool DrawLine;
+	
+	bool ShowLine, ShowColor;
+	IBOutlet NSButton *LineCheckBox, *ColorCheckBox;
 	
 	JB_ArcBall *ArcBall;
 	

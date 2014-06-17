@@ -30,9 +30,11 @@
 {
     [super drawRect:dirtyRect];
 	glClear(GL_COLOR_BUFFER_BIT);
+	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBegin(GL_POINTS);
+	
+	 glBegin(GL_POINTS);
 	{
 		for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 		{

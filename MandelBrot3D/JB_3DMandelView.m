@@ -28,7 +28,9 @@
 	Tz = -1500;
 	xRotAng = yRotAng = zRotAng = 0;
 	HeightRatio = 10;
-	DrawLine = false;
+	
+	ShowLine = false;
+	ShowColor = false;
 	
 	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
 	
@@ -62,10 +64,145 @@
 			HeightRatio/=1.1;
 			break;
 		case 37: // 'l'
-			DrawLine = !DrawLine;
+			ShowLine = !ShowLine;
+			[LineCheckBox setIntValue:ShowLine];
+			break;
+		case 8: // 'c'
+			ShowColor = !ShowColor;
+			[ColorCheckBox setIntValue:ShowColor];
+			break;
 	}
 	[self setNeedsDisplay:true];
 }
+
+-(void)prepareOpenGL
+{
+	glEnable(GL_DEPTH_TEST);
+	glClearColor(1, 1, 1, 1);
+	glFrustum(-600, 600, -450, 450,1000,2000);
+}
+
+-(double)getZ:(double)x :(double)y
+{
+	if([Data getNum:x :y] == -1)
+		return [Data getH:x :y]*HeightRatio;
+	else
+		return [Data getH:x :y]*HeightRatio*0.15;//*0;
+}
+
+-(void)drawDot:(double)x :(double)y :(double)z
+{
+	RGBA t = [Data getColor:x :y];
+	if(ShowColor) glColor3d(t.r, t.g, t.b);
+	else if([Data getNum:x :y] == -1) glColor3d(0.7, 0.7, 0.7);
+	else glColor3d(1, 1, 1);
+	glVertex3d(x-400, y-300, z);
+}
+
+-(void)drawTri:(double)x1 :(double)y1 :(double)x2 :(double)y2 :(double)x3 :(double)y3
+{
+	CGFloat z1, z2, z3;
+	CGFloat dx1, dy1, dz1, dx2, dy2, dz2;
+	CGFloat x, y, z;
+	CGFloat len;
+	
+	z1 = [self getZ:x1 :y1];
+	z2 = [self getZ:x2 :y2];
+	z3 = [self getZ:x3 :y3];
+	
+	dx1 = x2 - x1;
+	dy1 = y2 - y1;
+	dz1 = z2 - z1;
+	
+	dx2 = x3 - x1;
+	dy2 = y3 - y1;
+	dz2 = z3 - z1;
+	
+	x = - dy1*dz2 + dz1*dy2;
+	y = - dz1*dx2 + dx1*dz2;
+	z = - dx1*dy2 + dy1*dx2;
+	
+	len = sqrt(x*x+y*y+z*z);
+	
+	glNormal3f(x/len, y/len, z/len);
+	
+	[self drawDot:x1 :y1 :z1];
+	[self drawDot:x2 :y2 :z2];
+	[self drawDot:x3 :y3 :z3];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:dirtyRect];
+	glClearColor(0, 0, 0, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_CULL_FACE);
+	
+	if(ShowLine) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
+	/// 위치
+	GLfloat lightPos[] = {0, 0, 1000, 1};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+
+	///	방향
+	GLfloat lightDir[] = {0, 0, 1, 0};
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDir);
+
+	/// 주변광 색
+	GLfloat ambient[4]={0.5,0.5,0.5,1};
+	glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
+	
+	/// 분산 색
+	GLfloat Diff[4]={1,1,1,1};
+	glLightfv(GL_LIGHT0,GL_DIFFUSE,Diff);
+	
+
+	///	광역 주변광
+//	GLfloat ambient2[4]={0.1,0.1,0.1,1};
+//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient2);
+	
+	///재질
+	glEnable(GL_COLOR_MATERIAL);
+	
+	glShadeModel(GL_SMOOTH);
+	
+	glPushMatrix();
+	
+	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+	
+	glScaled(magni, magni, 1);
+	glTranslated(Tx, Ty, Tz);
+	
+	glMultMatrixf(Transform.M);
+	
+	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
+	{
+		glBegin(GL_TRIANGLES);
+		
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+0 :i*2+2 :j*2+0];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+2 :i*2+0 :j*2+0];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+0 :i*2+2 :j*2+2];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
+	
+		glEnd();
+	}
+	
+	glPopMatrix();
+	
+	glFlush();
+}
+
+-(IBAction)ColorCheckBoxChanged:(id)sender {ShowColor = !ShowColor;[self setNeedsDisplay:true];}
+
+-(IBAction)LineCheckBoxChanged:(id)sender {ShowLine = !ShowLine;[self setNeedsDisplay:true];}
 
 -(void)scrollWheel:(NSEvent *)theEvent
 {
@@ -146,129 +283,6 @@
 	Tx += (dx*400/self.frame.size.width)*3/magni;
 	Ty += (dy*300/self.frame.size.height)*3/magni;
 	[self setNeedsDisplay:true];
-}
-
--(void)prepareOpenGL
-{
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(1, 1, 1, 1);
-	glFrustum(-600, 600, -450, 450,1000,2000);
-}
-
--(double)getZ:(double)x :(double)y
-{
-	if([Data getNum:x :y] == -1)
-		return [Data getH:x :y]*HeightRatio;
-	else
-		return [Data getH:x :y]*HeightRatio*0.15*0;
-}
-
--(void)drawDot:(double)x :(double)y :(double)z
-{
-	RGBA t = [Data getColor:x :y];
-	glColor3d(t.r, t.g, t.b);
-	glVertex3d(x-400,	y-300,z);
-}
-
--(void)drawTri:(double)x1 :(double)y1 :(double)x2 :(double)y2 :(double)x3 :(double)y3
-{
-	CGFloat z1, z2, z3;
-	CGFloat dx1, dy1, dz1, dx2, dy2, dz2;
-	CGFloat x, y, z;
-	CGFloat len;
-	
-	z1 = [self getZ:x1 :y1];
-	z2 = [self getZ:x2 :y2];
-	z3 = [self getZ:x3 :y3];
-	
-	dx1 = x2 - x1;
-	dy1 = y2 - y1;
-	dz1 = z2 - z1;
-	
-	dx2 = x3 - x1;
-	dy2 = y3 - y1;
-	dz2 = z3 - z1;
-	
-	x = - dy1*dz2 + dz1*dy2;
-	y = - dz1*dx2 + dx1*dz2;
-	z = - dx1*dy2 + dy1*dx2;
-	
-	len = sqrt(x*x+y*y+z*z);
-	
-	glNormal3f(x/len, y/len, z/len);
-	
-	[self drawDot:x1 :y1 :z1];
-	[self drawDot:x2 :y2 :z2];
-	[self drawDot:x3 :y3 :z3];
-}
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [super drawRect:dirtyRect];
-	glClearColor(0, 0, 0, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_CULL_FACE);
-	
-	if(DrawLine) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
-	/// 위치
-	GLfloat lightPos[] = {0, 0, 1000, 1};
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-
-	///	방향
-	GLfloat lightDir[] = {0, 0, 1, 0};
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDir);
-
-	/// 주변광 색
-	GLfloat ambient[4]={0.5,0.5,0.5,1};
-	glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
-	
-	/// 분산 색
-	GLfloat Diff[4]={1,1,1,1};
-	glLightfv(GL_LIGHT0,GL_DIFFUSE,Diff);
-	
-
-	///	광역 주변광
-//	GLfloat ambient2[4]={0.1,0.1,0.1,1};
-//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient2);
-	
-	///재질
-	glEnable(GL_COLOR_MATERIAL);
-	
-	glShadeModel(GL_SMOOTH);
-	
-	glPushMatrix();
-	
-	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-	
-	glScaled(magni, magni, 1);
-	glTranslated(Tx, Ty, Tz);
-	
-	glMultMatrixf(Transform.M);
-	
-	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
-	{
-		glBegin(GL_TRIANGLES);
-		
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+0 :i*2+2 :j*2+0];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+2 :i*2+0 :j*2+0];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+0 :i*2+2 :j*2+2];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
-	
-		glEnd();
-	}
-	
-	glPopMatrix();
-	
-	glFlush();
 }
 
 @end

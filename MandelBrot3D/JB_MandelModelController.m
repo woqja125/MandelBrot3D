@@ -36,6 +36,7 @@ const int Height = 600;
 
 -(void)StartNewSet
 {
+	[NSThread setThreadPriority:0.001];
 	dx = End.x - Origin.x;
 	dx /= Width;
 	dy = End.y - Origin.y;
@@ -95,20 +96,21 @@ const int Height = 600;
 					tmp.h = H*360;
 					tmp.s = 1;
 					tmp.v = 1;
-					//Color[i][j] = [self RGBfromHSV:tmp];
-					Color[i][j].r = Color[i][j].g = Color[i][j].b = 1;
+					Color[i][j] = [self RGBfromHSV:tmp];
+					//Color[i][j].r = Color[i][j].g = Color[i][j].b = 1;
 					DataChanged = true;
 				}
 				
 			}
 		}
-		//[NSThread sleepForTimeInterval:1.0/30];
+		[NSThread sleepForTimeInterval:1.0/3000];
 		if(!keepThread) return;
 	}
 }
 
 -(void)notifyDataChanged
 {
+	[NSThread setThreadPriority:0.001];
 	while(1)
 	{
 		[NSThread sleepForTimeInterval:1./60];
