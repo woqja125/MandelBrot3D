@@ -11,14 +11,15 @@
 
 @implementation JB_3DMandelView
 
-- (id)initWithFrame:(NSRect)frame
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
-    if (self) {		
-    }
-    return self;
+	self = [super initWithCoder:aDecoder];
+	if(self)
+	{
+		//
+	}
+	return self;
 }
-
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
@@ -72,9 +73,17 @@
 	[self setNeedsDisplay:true];
 }
 
+-(NSPoint)getRealPoint :(NSEvent*)event
+{
+	NSPoint r = [event locationInWindow];
+	r.x -= self.frame.origin.x;
+	r.y -= self.frame.origin.y;
+	return r;
+}
+
 -(void)mouseDown:(NSEvent *)theEvent
 {
-	pMouseClicked = [theEvent locationInWindow];
+	pMouseClicked = [self getRealPoint:theEvent];
 	LastRot = ThisRot;
 	Point2fT Pt;
 	Pt.s.X = [theEvent locationInWindow].x;
@@ -87,8 +96,8 @@
 	Quat4fT     ThisQuat;
 	
 	Point2fT Pt;
-	Pt.s.X = [theEvent locationInWindow].x;
-	Pt.s.Y = self.frame.size.height-[theEvent locationInWindow].y;
+	Pt.s.X = [self getRealPoint:theEvent].x;
+	Pt.s.Y = self.frame.size.height-[self getRealPoint:theEvent].y;
 	
 	[ArcBall drag:&Pt :&ThisQuat];
 	Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);
@@ -104,8 +113,8 @@
 {
 	Quat4fT     ThisQuat;
 	Point2fT Pt;
-	Pt.s.X = [theEvent locationInWindow].x;
-	Pt.s.Y = self.frame.size.height-[theEvent locationInWindow].y;
+	Pt.s.X = [self getRealPoint:theEvent].x;
+	Pt.s.Y = self.frame.size.height-[self getRealPoint:theEvent].y;
 	[ArcBall drag:&Pt :&ThisQuat];
 	Matrix3fSetRotationFromQuat4f(&ThisRot, &ThisQuat);
 	Matrix3fMulMatrix3f(&ThisRot, &LastRot);
@@ -115,12 +124,12 @@
 
 -(void)rightMouseDown:(NSEvent *)theEvent
 {
-	pCMouseClicked = [theEvent locationInWindow];
+	pCMouseClicked = [self getRealPoint:theEvent];
 }
 
 -(void)rightMouseDragged:(NSEvent *)theEvent
 {
-	NSPoint tmp = [theEvent locationInWindow];
+	NSPoint tmp = [self getRealPoint:theEvent];
 	double dx = tmp.x - pCMouseClicked.x;
 	double dy = tmp.y - pCMouseClicked.y;
 	Tx += (dx*800/self.frame.size.width)*2.26/magni;
@@ -131,7 +140,7 @@
 
 -(void)rightMouseUp:(NSEvent *)theEvent
 {
-	NSPoint tmp = [theEvent locationInWindow];
+	NSPoint tmp = [self getRealPoint:theEvent];
 	double dx = tmp.x - pCMouseClicked.x;
 	double dy = tmp.y - pCMouseClicked.y;
 	Tx += (dx*400/self.frame.size.width)*3/magni;

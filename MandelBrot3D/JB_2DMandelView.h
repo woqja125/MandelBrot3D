@@ -19,5 +19,5 @@
 	NSPoint MouseStart, MouseEnd;
 	NSPoint MouseO, MouseE;
 }
-- (id)initWithFrame:(NSRect)frame;
+- (id)initWithCoder:(NSCoder *)aDecoder;
 @end

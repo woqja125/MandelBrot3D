@@ -11,12 +11,14 @@
 
 @implementation JB_2DMandelView
 
-- (id)initWithFrame:(NSRect)frame
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    return self;
+	self = [super initWithCoder:aDecoder];
+	if(self)
+	{
+		//
+	}
+	return self;
 }
 
 -(void)prepareOpenGL
@@ -98,13 +100,21 @@
 	glFlush();
 }
 
+-(NSPoint)getRealPoint :(NSEvent*)event
+{
+	NSPoint r = [event locationInWindow];
+	r.x -= self.frame.origin.x;
+	r.y -= self.frame.origin.y;
+	return r;
+}
+
 -(void)mouseDown:(NSEvent *)theEvent
 {
-	MouseEnd = MouseStart = [theEvent locationInWindow];
+	MouseEnd = MouseStart = [self getRealPoint:theEvent];
 }
 -(void)mouseDragged:(NSEvent *)theEvent
 {
-	MouseEnd = [theEvent locationInWindow];
+	MouseEnd = [self getRealPoint:theEvent];
 	if(MouseStart.x < MouseEnd.x)
 	{
 		MouseO.x = MouseStart.x;
@@ -135,7 +145,7 @@
 -(void)mouseUp:(NSEvent *)theEvent
 {
 	if(MouseEnd.x == MouseStart.x || MouseEnd.y == MouseStart.y) return;
-	MouseEnd = [theEvent locationInWindow];
+	MouseEnd = [self getRealPoint:theEvent];
 	int dx = MouseEnd.x - MouseStart.x;
 	dx /= 4;
 	int dy = MouseEnd.y - MouseStart.y;

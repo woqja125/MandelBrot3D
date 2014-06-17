@@ -28,6 +28,6 @@
 
 }
 
-- (id)initWithFrame:(NSRect)frame;
+- (id)initWithCoder:(NSCoder *)aDecoder;
 
 @end

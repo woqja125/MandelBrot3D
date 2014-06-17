@@ -666,10 +666,10 @@
         <window title="MandelBrot 3D" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="800" height="600"/>
+            <rect key="contentRect" x="335" y="390" width="1225" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1600" height="878"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="1225" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <openGLView misplaced="YES" depthSize="24bit" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9As-ga-iGK" customClass="JB_3DMandelView">
@@ -681,33 +681,18 @@
                             <outlet property="Data" destination="UQE-P5-HU5" id="TuL-Ag-rCS"/>
                         </connections>
                     </openGLView>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="9As-ga-iGK" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="0Oq-nA-8Or"/>
-                    <constraint firstItem="9As-ga-iGK" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="8ik-n4-AkO"/>
-                    <constraint firstAttribute="trailing" secondItem="9As-ga-iGK" secondAttribute="trailing" id="dKi-re-54i"/>
-                    <constraint firstAttribute="bottom" secondItem="9As-ga-iGK" secondAttribute="bottom" id="f2B-KE-qjx"/>
-                </constraints>
-            </view>
-        </window>
-        <window title="MandelBrot 2D" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="rKR-fD-wbr">
-            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="152" y="159" width="400" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1600" height="878"/>
-            <value key="minSize" type="size" width="400" height="300"/>
-            <value key="maxSize" type="size" width="400" height="300"/>
-            <view key="contentView" id="AXf-zw-6YE">
-                <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
                     <openGLView fixedFrame="YES" useAuxiliaryDepthBufferStencil="NO" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W8v-8y-z0r" customClass="JB_2DMandelView">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
+                        <rect key="frame" x="825" y="299" width="400" height="300"/>
                         <connections>
                             <outlet property="Data" destination="UQE-P5-HU5" id="0jp-6J-0zs"/>
                         </connections>
                     </openGLView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="9As-ga-iGK" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="0Oq-nA-8Or"/>
+                    <constraint firstItem="9As-ga-iGK" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="8ik-n4-AkO"/>
+                    <constraint firstAttribute="bottom" secondItem="9As-ga-iGK" secondAttribute="bottom" id="f2B-KE-qjx"/>
+                </constraints>
             </view>
         </window>
         <customObject id="UQE-P5-HU5" customClass="JB_MandelModelController">
