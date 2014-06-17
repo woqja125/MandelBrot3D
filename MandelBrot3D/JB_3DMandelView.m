@@ -136,6 +136,9 @@
 			ShowCurveOnDiv = !ShowCurveOnDiv;
 			[DivCheckBox setIntValue:ShowCurveOnDiv];
 			break;
+		case 15: // 'R'
+			[self ResetView:self];
+			break;
 	}
 	[self setNeedsDisplay:true];
 }
