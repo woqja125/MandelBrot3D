@@ -20,6 +20,7 @@
 	}
 	return self;
 }
+
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
@@ -27,10 +28,11 @@
 	Tx = Ty = 0;
 	Tz = -1500;
 	xRotAng = yRotAng = zRotAng = 0;
-	HeightRatio = 10;
+	HeightRatio = 300;
 	
 	ShowLine = false;
 	ShowColor = false;
+	ShowCurveOnDiv = false;
 	
 	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
 	
@@ -71,6 +73,10 @@
 			ShowColor = !ShowColor;
 			[ColorCheckBox setIntValue:ShowColor];
 			break;
+		case 2: // 'd'
+			ShowCurveOnDiv = !ShowCurveOnDiv;
+			[DivCheckBox setIntValue:ShowCurveOnDiv];
+			break;
 	}
 	[self setNeedsDisplay:true];
 }
@@ -87,7 +93,7 @@
 	if([Data getNum:x :y] == -1)
 		return [Data getH:x :y]*HeightRatio;
 	else
-		return [Data getH:x :y]*HeightRatio*0.15;//*0;
+		return [Data getH:x :y]*HeightRatio*0.15*(ShowCurveOnDiv?1:0);
 }
 
 -(void)drawDot:(double)x :(double)y :(double)z
@@ -203,6 +209,8 @@
 -(IBAction)ColorCheckBoxChanged:(id)sender {ShowColor = !ShowColor;[self setNeedsDisplay:true];}
 
 -(IBAction)LineCheckBoxChanged:(id)sender {ShowLine = !ShowLine;[self setNeedsDisplay:true];}
+
+-(IBAction)CurveCheckBoxChanged:(id)sender {ShowCurveOnDiv = !ShowCurveOnDiv;[self setNeedsDisplay:true];}
 
 -(void)scrollWheel:(NSEvent *)theEvent
 {

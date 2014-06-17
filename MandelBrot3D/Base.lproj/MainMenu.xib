@@ -680,6 +680,7 @@
                         <connections>
                             <outlet property="ColorCheckBox" destination="Abc-Gu-XSl" id="Man-ta-zTR"/>
                             <outlet property="Data" destination="UQE-P5-HU5" id="TuL-Ag-rCS"/>
+                            <outlet property="DivCheckBox" destination="7Z6-yd-RZh" id="7rv-X0-PXy"/>
                             <outlet property="LineCheckBox" destination="EFH-IG-u1d" id="AXD-CE-1Gl"/>
                         </connections>
                     </openGLView>
@@ -722,6 +723,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="CurveCheckBoxChanged:" target="9As-ga-iGK" id="51B-i9-Gcs"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

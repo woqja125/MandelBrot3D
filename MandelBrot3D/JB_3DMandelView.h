@@ -20,8 +20,8 @@
 	double magni, Tx, Ty, Tz, xRotAng, yRotAng, zRotAng, HeightRatio;
 	NSPoint pMouseClicked, pRMouseClicked, pCMouseClicked;
 	
-	bool ShowLine, ShowColor;
-	IBOutlet NSButton *LineCheckBox, *ColorCheckBox;
+	bool ShowLine, ShowColor, ShowCurveOnDiv;
+	IBOutlet NSButton *LineCheckBox, *ColorCheckBox, *DivCheckBox;
 	
 	JB_ArcBall *ArcBall;
 	
