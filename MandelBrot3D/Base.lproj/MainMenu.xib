@@ -697,7 +697,7 @@
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="EFH-IG-u1d">
                         <rect key="frame" x="808" y="274" width="385" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Line                                                                     (L)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IhA-mo-2PB">
+                        <buttonCell key="cell" type="check" title="Show Only Line                                                             (L)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="IhA-mo-2PB">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
