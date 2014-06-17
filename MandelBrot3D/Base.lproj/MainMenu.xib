@@ -708,7 +708,7 @@
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="Abc-Gu-XSl">
                         <rect key="frame" x="808" y="250" width="387" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Color                                                                   (C)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cyd-aR-s3v">
+                        <buttonCell key="cell" type="check" title="Show Color                                                                   (C)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="cyd-aR-s3v">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -719,12 +719,23 @@
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="7Z6-yd-RZh">
                         <rect key="frame" x="808" y="226" width="388" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Show Curve on divergence point                                   (D)" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Nbv-7M-Oxg">
+                        <buttonCell key="cell" type="check" title="Show Curve on divergence point                                   (D)" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Nbv-7M-Oxg">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="CurveCheckBoxChanged:" target="9As-ga-iGK" id="51B-i9-Gcs"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CMn-Ey-SAs">
+                        <rect key="frame" x="1059" y="13" width="137" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Reset View" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1yc-hs-Yej">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="ResetView:" target="9As-ga-iGK" id="AdJ-2X-cC1"/>
                         </connections>
                     </button>
                 </subviews>

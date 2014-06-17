@@ -24,21 +24,80 @@
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
-	magni = 1;
-	Tx = Ty = 0;
-	Tz = -1500;
-	xRotAng = yRotAng = zRotAng = 0;
-	HeightRatio = 300;
 	
-	ShowLine = false;
-	ShowColor = false;
-	ShowCurveOnDiv = false;
+	[self ResetSetting];
 	
 	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
 	
-	Matrix3fSetIdentity(&LastRot);
-	Matrix3fSetIdentity(&ThisRot);
-	Transform.s.M00 = Transform.s.M11 = Transform.s.M22 = Transform.s.M33 = 1;
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [super drawRect:dirtyRect];
+	glClearColor(0, 0, 0, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_CULL_FACE);
+	
+	if(ShowLine) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	
+	/// 위치
+	GLfloat lightPos[] = {0, 0, 1000, 1};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	
+	///	방향
+	GLfloat lightDir[] = {0, 0, 1, 0};
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDir);
+	
+	/// 주변광 색
+	GLfloat ambient[4]={0.5,0.5,0.5,1};
+	glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
+	
+	/// 분산 색
+	GLfloat Diff[4]={1,1,1,1};
+	glLightfv(GL_LIGHT0,GL_DIFFUSE,Diff);
+	
+	
+	///	광역 주변광
+	//	GLfloat ambient2[4]={0.1,0.1,0.1,1};
+	//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient2);
+	
+	///재질
+	glEnable(GL_COLOR_MATERIAL);
+	
+	glShadeModel(GL_SMOOTH);
+	
+	glPushMatrix();
+	
+	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
+	
+	glScaled(magni, magni, 1);
+	glTranslated(Tx, Ty, Tz);
+	
+	glMultMatrixf(Transform.M);
+	
+	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
+	{
+		glBegin(GL_TRIANGLES);
+		
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+0 :i*2+2 :j*2+0];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+2 :i*2+0 :j*2+0];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+0 :i*2+2 :j*2+2];
+		
+		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
+		
+		glEnd();
+	}
+	
+	glPopMatrix();
+	
+	glFlush();
 }
 
 -(void)keyDown:(NSEvent *)theEvent
@@ -137,80 +196,37 @@
 	[self drawDot:x3 :y3 :z3];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [super drawRect:dirtyRect];
-	glClearColor(0, 0, 0, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_CULL_FACE);
-	
-	if(ShowLine) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
-	/// 위치
-	GLfloat lightPos[] = {0, 0, 1000, 1};
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-
-	///	방향
-	GLfloat lightDir[] = {0, 0, 1, 0};
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, lightDir);
-
-	/// 주변광 색
-	GLfloat ambient[4]={0.5,0.5,0.5,1};
-	glLightfv(GL_LIGHT0,GL_AMBIENT,ambient);
-	
-	/// 분산 색
-	GLfloat Diff[4]={1,1,1,1};
-	glLightfv(GL_LIGHT0,GL_DIFFUSE,Diff);
-	
-
-	///	광역 주변광
-//	GLfloat ambient2[4]={0.1,0.1,0.1,1};
-//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient2);
-	
-	///재질
-	glEnable(GL_COLOR_MATERIAL);
-	
-	glShadeModel(GL_SMOOTH);
-	
-	glPushMatrix();
-	
-	glViewport(0, 0, self.frame.size.width, self.frame.size.height);
-	
-	glScaled(magni, magni, 1);
-	glTranslated(Tx, Ty, Tz);
-	
-	glMultMatrixf(Transform.M);
-	
-	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
-	{
-		glBegin(GL_TRIANGLES);
-		
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+0 :i*2+2 :j*2+0];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+2 :i*2+0 :j*2+0];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+0 :i*2+2 :j*2+2];
-		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
-	
-		glEnd();
-	}
-	
-	glPopMatrix();
-	
-	glFlush();
-}
-
 -(IBAction)ColorCheckBoxChanged:(id)sender {ShowColor = !ShowColor;[self setNeedsDisplay:true];}
 
 -(IBAction)LineCheckBoxChanged:(id)sender {ShowLine = !ShowLine;[self setNeedsDisplay:true];}
 
 -(IBAction)CurveCheckBoxChanged:(id)sender {ShowCurveOnDiv = !ShowCurveOnDiv;[self setNeedsDisplay:true];}
+
+-(IBAction)ResetView:(id)sender {[self ResetSetting];[self setNeedsDisplay:true];}
+
+-(void)ResetSetting
+{
+	
+	magni = 1;
+	Tx = Ty = 0;
+	Tz = -1500;
+	xRotAng = yRotAng = zRotAng = 0;
+	HeightRatio = 300;
+	
+	ShowLine = false;
+	ShowColor = true;
+	ShowCurveOnDiv = true;
+	
+	[LineCheckBox setIntValue:ShowLine];
+	[ColorCheckBox setIntValue:ShowColor];
+	[DivCheckBox setIntValue:ShowCurveOnDiv];
+	
+	Matrix3fSetIdentity(&LastRot);
+	Matrix3fSetIdentity(&ThisRot);
+	for(int i=0; i<16; i++)Transform.M[i] = 0;
+	Transform.s.M00 = Transform.s.M11 = Transform.s.M22 = Transform.s.M33 = 1;
+	
+}
 
 -(void)scrollWheel:(NSEvent *)theEvent
 {
