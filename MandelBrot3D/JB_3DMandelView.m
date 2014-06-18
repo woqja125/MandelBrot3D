@@ -16,7 +16,16 @@
 	self = [super initWithCoder:aDecoder];
 	if(self)
 	{
-		//
+		indexCnt = 0;
+		for(int i=0; i<800; i++)for(int j=0; j<600; j++)
+		{
+			Index[indexCnt++] = (i)*601+(j);
+			Index[indexCnt++] = (i+1)*601+(j+1);
+			Index[indexCnt++] = (i+1)*601+(j);
+			Index[indexCnt++] = (i)*601+(j);
+			Index[indexCnt++] = (i+1)*601+(j+1);
+			Index[indexCnt++] = (i)*601+(j+1);
+		}
 	}
 	return self;
 }
@@ -44,6 +53,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
+		
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -88,7 +98,7 @@
 	glTranslated(Tx, Ty, Tz);
 	
 	glMultMatrixf(Transform.M);
-	
+	/*
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
 		glBegin(GL_TRIANGLES);
@@ -103,7 +113,7 @@
 		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
 		
 		glEnd();
-	}
+	}*/
 	
 	glPopMatrix();
 	
