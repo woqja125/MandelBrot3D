@@ -18,6 +18,10 @@
 	IBOutlet JB_MandelModelController *Data;
 	NSPoint MouseStart, MouseEnd;
 	NSPoint MouseO, MouseE;
+	
+	unsigned Index[200000], indexCnt;
+	float Col[(400*300+100)*3];
+	float dot[(400*300+100)*3];
 }
 - (id)initWithCoder:(NSCoder *)aDecoder;
 @end

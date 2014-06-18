@@ -16,7 +16,12 @@
 	self = [super initWithCoder:aDecoder];
 	if(self)
 	{
-		//
+		indexCnt = 0;
+		for(int i=0; i<400; i++)for(int j=0; j<300; j++)
+		{
+			Index[indexCnt] = indexCnt;
+			indexCnt ++;
+		}
 	}
 	return self;
 }
@@ -34,21 +39,35 @@
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
-	 glBegin(GL_POINTS);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, dot);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glColorPointer(3, GL_FLOAT, 0, Col);
+	
+	int index = 0;
+
+	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
-		for(int i=0; i<400; i++)for(int j=0; j<300; j++)
+		dot[index*3+0] = i;
+		dot[index*3+1] = j;
+		int d = [Data getNum:i*2:j*2];
+		if(d==-1)
 		{
-			int d = [Data getNum:i*2:j*2];
-			if(d==-1) continue;
-			else
-			{
-				RGBA t = [Data getColor:i*2 :j*2];
-				glColor3d(t.r, t.g, t.b);
-				glVertex2d(i, j);
-			}
+			Col[index*3+0] =
+			Col[index*3+1] =
+			Col[index*3+2] = 0;
 		}
+		else
+		{
+			RGBA t = [Data getColor:i*2 :j*2];
+			Col[index*3+0] = t.r;
+			Col[index*3+1] = t.g;
+			Col[index*3+2] = t.b;
+		}
+		index++;
 	}
-	glEnd();
+
+	glDrawElements(GL_POINTS, indexCnt, GL_UNSIGNED_INT, Index);
 	
 	NSPoint MO, ME;
 	int dx = MouseEnd.x - MouseStart.x;
