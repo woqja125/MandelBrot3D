@@ -38,11 +38,8 @@
 -(void)awakeFromNib
 {
 	[self.window makeFirstResponder:self];
-	
 	[self ResetSetting];
-	
 	ArcBall = [[JB_ArcBall alloc] initWithWidth:self.frame.size.width Height:self.frame.size.height];
-	
 }
 
 - (void)windowResized:(NSNotification *)notification;
@@ -78,11 +75,6 @@
 	/// 분산 색
 	GLfloat Diff[4]={1,1,1,1};
 	glLightfv(GL_LIGHT0,GL_DIFFUSE,Diff);
-	
-	
-	///	광역 주변광
-	//	GLfloat ambient2[4]={0.1,0.1,0.1,1};
-	//	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient2);
 	
 	///재질
 	glEnable(GL_COLOR_MATERIAL);
@@ -127,15 +119,11 @@
 		}
 		else if(I[ind] == -1)
 		{
-			col[ind*3] =
-			col[ind*3+1] =
-			col[ind*3+2] = 0.7;
+			col[ind*3] = col[ind*3+1] = col[ind*3+2] = 0.7;
 		}
 		else
 		{
-			col[ind*3] =
-			col[ind*3+1] =
-			col[ind*3+2] = 1;
+			col[ind*3] = col[ind*3+1] = col[ind*3+2] = 1;
 		}
 		
 		nor[ind*3] = nor[ind*3+1] = nor[ind*3+2] = 0;
@@ -199,7 +187,6 @@
 		nor[(x1*601+y1)*3+2] += z;
 		nor[(x2*601+y2)*3+2] += z;
 		nor[(x3*601+y3)*3+2] += z;
-		
 	}
 	
 	ind = 0;
@@ -285,7 +272,6 @@
 
 -(void)ResetSetting
 {
-	
 	magni = 1;
 	Tx = Ty = 0;
 	Tz = -1500;
@@ -304,7 +290,6 @@
 	Matrix3fSetIdentity(&ThisRot);
 	for(int i=0; i<16; i++)Transform.M[i] = 0;
 	Transform.s.M00 = Transform.s.M11 = Transform.s.M22 = Transform.s.M33 = 1;
-	
 }
 
 -(void)scrollWheel:(NSEvent *)theEvent

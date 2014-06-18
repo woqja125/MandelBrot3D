@@ -162,7 +162,6 @@
 -(void)rightMouseDown:(NSEvent *)theEvent
 {
 	[Data Reset];
-	 
 }
 -(void)mouseUp:(NSEvent *)theEvent
 {
@@ -201,8 +200,6 @@
 	[Data newRange:MouseO :MouseE];
 	
 	MouseStart = MouseEnd = MouseO = MouseE = NSMakePoint(0, 0);
-	
-	
 }
 
 @end
