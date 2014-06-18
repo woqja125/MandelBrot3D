@@ -134,7 +134,7 @@ const int Height = 600;
 	return Color[x][y];
 }
 
--(double)getH:(int)x :(int)y
+-(float)getH:(int)x :(int)y
 {
 	return S[x][y];
 }

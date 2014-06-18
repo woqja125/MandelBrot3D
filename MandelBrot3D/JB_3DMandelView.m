@@ -126,14 +126,14 @@
 		}
 		else if(d==-1)
 		{
-			col[ind*3] = 0.7;
-			col[ind*3+1] = 0.7;
+			col[ind*3] =
+			col[ind*3+1] =
 			col[ind*3+2] = 0.7;
 		}
 		else
 		{
-			col[ind*3] = 1;
-			col[ind*3+1] = 1;
+			col[ind*3] =
+			col[ind*3+1] =
 			col[ind*3+2] = 1;
 		}
 		
