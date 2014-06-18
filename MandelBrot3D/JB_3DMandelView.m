@@ -20,8 +20,8 @@
 		for(int i=0; i<800; i++)for(int j=0; j<600; j++)
 		{
 			Index[indexCnt++] = (i)*601+(j);
-			Index[indexCnt++] = (i+1)*601+(j+1);
 			Index[indexCnt++] = (i+1)*601+(j);
+			Index[indexCnt++] = (i+1)*601+(j+1);
 			Index[indexCnt++] = (i)*601+(j);
 			Index[indexCnt++] = (i+1)*601+(j+1);
 			Index[indexCnt++] = (i)*601+(j+1);
@@ -53,7 +53,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
-		
+	
 	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -98,22 +98,126 @@
 	glTranslated(Tx, Ty, Tz);
 	
 	glMultMatrixf(Transform.M);
-	/*
-	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
+	
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, ver);
+	glEnableClientState(GL_COLOR_ARRAY);
+	glColorPointer(3, GL_FLOAT, 0, col);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glNormalPointer(GL_FLOAT, 0, nor);
+	
+	int ind = 0;
+	for(int i=0; i<801; i++)for(int j=0; j<601; j++)
 	{
-		glBegin(GL_TRIANGLES);
+		int d = [Data getNum:i :j];
 		
+		ver[ind*3] = i - 400;
+		ver[ind*3+1] = j - 300;
+		if(d==-1) ver[ind*3+2] = [Data getH:i :j]*HeightRatio;
+		else if(ShowCurveOnDiv) ver[ind*3+2] = [Data getH:i :j]*HeightRatio*0.15;
+		else ver[ind*3+2] = 0;
 		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+0 :i*2+2 :j*2+0];
+		if(ShowColor)
+		{
+			RGBA t = [Data getColor:i :j];
+			col[ind*3] = t.r;
+			col[ind*3+1] = t.g;
+			col[ind*3+2] = t.b;
+		}
+		else if(d==-1)
+		{
+			col[ind*3] = 0.7;
+			col[ind*3+1] = 0.7;
+			col[ind*3+2] = 0.7;
+		}
+		else
+		{
+			col[ind*3] = 1;
+			col[ind*3+1] = 1;
+			col[ind*3+2] = 1;
+		}
 		
-		[self drawTri:i*2+1 :j*2+1 :i*2+0 :j*2+2 :i*2+0 :j*2+0];
+		nor[ind*3] = nor[ind*3+1] = nor[ind*3+2] = 0;
 		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+0 :i*2+2 :j*2+2];
+		ind ++;
+	}
+	
+	for(int i=0; i<800; i++)for(int j=0; j<600; j++)
+	{
+		int x1, y1, x2, y2, x3, y3;
+		float z1, z2, z3, dx1, dx2, dy1, dy2, dz1, dz2, x, y, z;
 		
-		[self drawTri:i*2+1 :j*2+1 :i*2+2 :j*2+2 :i*2+0 :j*2+2];
+		x1 = i; y1 = j; z1 = ver[(x1*601+y1)*3+2];
+		x2 = i+1; y2 = j; z2 = ver[(x2*601+y2)*3+2];
+		x3 = i+1; y3 = j+1; z3 = ver[(x3*601+y3)*3+2];
 		
-		glEnd();
-	}*/
+		dx1 = x2 - x1;
+		dy1 = y2 - y1;
+		dz1 = z2 - z1;
+		
+		dx2 = x3 - x1;
+		dy2 = y3 - y1;
+		dz2 = z3 - z1;
+		
+		x = - dy1*dz2 + dz1*dy2;
+		y = - dz1*dx2 + dx1*dz2;
+		z = - dx1*dy2 + dy1*dx2;
+		
+		nor[(x1*601+y1)*3] += x;
+		nor[(x2*601+y2)*3] += x;
+		nor[(x3*601+y3)*3] += x;
+		nor[(x1*601+y1)*3+1] += y;
+		nor[(x2*601+y2)*3+1] += y;
+		nor[(x3*601+y3)*3+1] += y;
+		nor[(x1*601+y1)*3+2] += z;
+		nor[(x2*601+y2)*3+2] += z;
+		nor[(x3*601+y3)*3+2] += z;
+		
+		x1 = i; y1 = j; z1 = ver[(x1*601+y1)*3+2];
+		x2 = i+1; y2 = j+1; z2 = ver[(x1*601+y2)*3+2];
+		x3 = i; y3 = j+1; z3 = ver[(x3*601+y3)*3+2];
+		
+		dx1 = x2 - x1;
+		dy1 = y2 - y1;
+		dz1 = z2 - z1;
+		
+		dx2 = x3 - x1;
+		dy2 = y3 - y1;
+		dz2 = z3 - z1;
+		
+		x = - dy1*dz2 + dz1*dy2;
+		y = - dz1*dx2 + dx1*dz2;
+		z = - dx1*dy2 + dy1*dx2;
+		
+		nor[(x1*601+y1)*3] += x;
+		nor[(x2*601+y2)*3] += x;
+		nor[(x3*601+y3)*3] += x;
+		nor[(x1*601+y1)*3+1] += y;
+		nor[(x2*601+y2)*3+1] += y;
+		nor[(x3*601+y3)*3+1] += y;
+		nor[(x1*601+y1)*3+2] += z;
+		nor[(x2*601+y2)*3+2] += z;
+		nor[(x3*601+y3)*3+2] += z;
+		
+	}
+	
+	ind = 0;
+	for(int i=0; i<801; i++)for(int j=0; j<601; j++)
+	{
+		float x = nor[ind*3];
+		float y = nor[ind*3+1];
+		float z = nor[ind*3+2];
+		
+		float len = sqrt(x*x+y*y+z*z);
+		
+		nor[ind*3] /= len;
+		nor[ind*3+1] /= len;
+		nor[ind*3+2] /= len;
+		
+		ind ++;
+	}
+	
+	glDrawElements(GL_TRIANGLES, indexCnt, GL_UNSIGNED_INT, Index);
 	
 	glPopMatrix();
 	
@@ -168,55 +272,6 @@
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(1, 1, 1, 1);
 	glFrustum(-600, 600, -450, 450,1000,2000);
-}
-
--(double)getZ:(double)x :(double)y
-{
-	if([Data getNum:x :y] == -1)
-		return [Data getH:x :y]*HeightRatio;
-	else
-		return [Data getH:x :y]*HeightRatio*0.15*(ShowCurveOnDiv?1:0);
-}
-
--(void)drawDot:(double)x :(double)y :(double)z
-{
-	RGBA t = [Data getColor:x :y];
-	if(ShowColor) glColor3d(t.r, t.g, t.b);
-	else if([Data getNum:x :y] == -1) glColor3d(0.7, 0.7, 0.7);
-	else glColor3d(1, 1, 1);
-	glVertex3d(x-400, y-300, z);
-}
-
--(void)drawTri:(double)x1 :(double)y1 :(double)x2 :(double)y2 :(double)x3 :(double)y3
-{
-	CGFloat z1, z2, z3;
-	CGFloat dx1, dy1, dz1, dx2, dy2, dz2;
-	CGFloat x, y, z;
-	CGFloat len;
-	
-	z1 = [self getZ:x1 :y1];
-	z2 = [self getZ:x2 :y2];
-	z3 = [self getZ:x3 :y3];
-	
-	dx1 = x2 - x1;
-	dy1 = y2 - y1;
-	dz1 = z2 - z1;
-	
-	dx2 = x3 - x1;
-	dy2 = y3 - y1;
-	dz2 = z3 - z1;
-	
-	x = - dy1*dz2 + dz1*dy2;
-	y = - dz1*dx2 + dx1*dz2;
-	z = - dx1*dy2 + dy1*dx2;
-	
-	len = sqrt(x*x+y*y+z*z);
-	
-	glNormal3f(x/len, y/len, z/len);
-	
-	[self drawDot:x1 :y1 :z1];
-	[self drawDot:x2 :y2 :z2];
-	[self drawDot:x3 :y3 :z3];
 }
 
 -(IBAction)ColorCheckBoxChanged:(id)sender {ShowColor = !ShowColor;[self setNeedsDisplay:true];}
