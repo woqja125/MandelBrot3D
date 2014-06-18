@@ -107,14 +107,16 @@
 	glNormalPointer(GL_FLOAT, 0, nor);
 	
 	int ind = 0;
+	
+	float *H = [Data getHArray];
+	int *I = [Data getIterArray];
 	for(int i=0; i<801; i++)for(int j=0; j<601; j++)
 	{
-		int d = [Data getNum:i :j];
 		
 		ver[ind*3] = i - 400;
 		ver[ind*3+1] = j - 300;
-		if(d==-1) ver[ind*3+2] = [Data getH:i :j]*HeightRatio;
-		else if(ShowCurveOnDiv) ver[ind*3+2] = [Data getH:i :j]*HeightRatio*0.15;
+		if(I[ind] == -1) ver[ind*3+2] = H[ind]*HeightRatio;
+		else if(ShowCurveOnDiv) ver[ind*3+2] = H[ind]*HeightRatio*0.15;
 		else ver[ind*3+2] = 0;
 		
 		if(ShowColor)
@@ -124,7 +126,7 @@
 			col[ind*3+1] = t.g;
 			col[ind*3+2] = t.b;
 		}
-		else if(d==-1)
+		else if(I[ind] == -1)
 		{
 			col[ind*3] =
 			col[ind*3+1] =

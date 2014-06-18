@@ -123,20 +123,18 @@ const int Height = 600;
 	}
 }
 
--(int)getNum:(int)x :(int)y
-{
-	if(x<0 || x>800 || y<0 || y>600) return -1;
-	else return Iter[x][y];
-}
-
 -(RGBA)getColor:(int)x :(int)y
 {
 	return Color[x][y];
 }
 
--(float)getH:(int)x :(int)y
+-(int*) getIterArray;
 {
-	return S[x][y];
+	return &(Iter[0][0]);
+}
+-(float*)getHArray
+{
+	return &(S[0][0]);
 }
 
 -(void)newRange:(NSPoint)O :(NSPoint)E

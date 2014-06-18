@@ -46,12 +46,13 @@
 	
 	int index = 0;
 
+	int *I = [Data getIterArray];
+	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
 		dot[index*3+0] = i;
 		dot[index*3+1] = j;
-		int d = [Data getNum:i*2:j*2];
-		if(d==-1)
+		if(I[(i*2)*601 + j*2] == -1)
 		{
 			Col[index*3+0] =
 			Col[index*3+1] =

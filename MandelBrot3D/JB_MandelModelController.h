@@ -40,9 +40,9 @@ typedef struct
 	
 	IBOutlet NSOpenGLView *View1, *View2;
 }
--(int)getNum:(int)x :(int)y;
 -(RGBA)getColor:(int)x :(int)y;
--(float)getH:(int)x :(int)y;
+-(int*) getIterArray;
+-(float*)getHArray;
 -(void)newRange:(NSPoint)O :(NSPoint)E;
 -(void)Reset;
 @end
