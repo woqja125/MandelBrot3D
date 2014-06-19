@@ -99,7 +99,7 @@
                             </menuItem>
                             <menuItem title="Save…" keyEquivalent="s" id="pxx-59-PXV">
                                 <connections>
-                                    <action selector="saveByImage:" target="9As-ga-iGK" id="s0q-1L-UIs"/>
+                                    <action selector="saveByImage:" target="UQE-P5-HU5" id="pZS-p2-xcu"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Save As…" keyEquivalent="S" id="Bw7-FT-i3A">
@@ -757,7 +757,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="saveByImage:" target="9As-ga-iGK" id="dYZ-HN-Stf"/>
+                            <action selector="saveByImage:" target="UQE-P5-HU5" id="I1h-wA-YbI"/>
                         </connections>
                     </button>
                 </subviews>
@@ -784,8 +784,8 @@
         </window>
         <customObject id="UQE-P5-HU5" customClass="JB_MandelModelController">
             <connections>
-                <outlet property="View1" destination="9As-ga-iGK" id="kii-mS-4PI"/>
-                <outlet property="View2" destination="W8v-8y-z0r" id="WI4-Ek-CaV"/>
+                <outlet property="View2D" destination="W8v-8y-z0r" id="TJZ-si-eju"/>
+                <outlet property="View3D" destination="9As-ga-iGK" id="1cA-r2-jrp"/>
             </connections>
         </customObject>
     </objects>

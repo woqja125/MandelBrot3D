@@ -7,6 +7,8 @@
 //
 
 #import "JB_MandelModelController.h"
+#import "JB_2DMandelView.h"
+#import "JB_3DMandelView.h"
 
 const int Width = 800;
 const int Height = 600;
@@ -116,8 +118,8 @@ const int Height = 600;
 		[NSThread sleepForTimeInterval:1./60];
 		if(DataChanged)
 		{
-			if(View1 != nil) [View1 setNeedsDisplay:true];
-			if(View2 != nil) [View2 setNeedsDisplay:true];
+			if(View2D != nil) [View2D setNeedsDisplay:true];
+			if(View3D != nil) [View3D setNeedsDisplay:true];
 			DataChanged = false;
 		}
 	}
@@ -176,6 +178,64 @@ const int Height = 600;
 		[CalcThread setThreadPriority:0.1];
 		[CalcThread start];
 	}
+}
+
+-(IBAction)saveByImage:(id)sender
+{
+	//printf("save\n");
+	int w = View3D.frame.size.width;
+	int h = View3D.frame.size.height;
+	
+	
+	GLfloat *data = [View3D getImgData];
+	
+	NSSavePanel * savePanel = [NSSavePanel savePanel];
+    [savePanel setAllowedFileTypes:@[@"png"]];
+    [savePanel setDirectoryURL:[NSURL URLWithString:@"~/Desktop"]];
+    [savePanel beginSheetModalForWindow:View3D.window completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            // Close panel before handling errors
+            [savePanel orderOut:self];
+            // Do what you need to do with the selected path
+			
+			CGContextRef ImgContext = CGBitmapContextCreate(0, w, h, 8, (int)w*4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+			
+			int c = 0;
+			
+			for(int i=0; i<h; i++)
+			{
+				for(int j=0; j<w; j++)
+				{
+					CGContextSetRGBFillColor(ImgContext, data[c*3+0], data[c*3+1], data[c*3+2], 1);
+					CGContextFillRect(ImgContext, CGRectMake(j, i, 1, 1));
+					c++;
+				}
+			}
+			
+			CGImageRef tmp =  CGBitmapContextCreateImage(ImgContext);
+			CFURLRef tempURL = (__bridge CFURLRef)([savePanel URL]);
+			CGImageDestinationRef dest = CGImageDestinationCreateWithURL(tempURL, kUTTypePNG, 1, NULL);
+			CGImageDestinationAddImage(dest, tmp, nil);
+			if (!CGImageDestinationFinalize(dest)) {
+				NSLog(@"Failed to write image to");
+			}
+			//CFRelease(tempURL);
+			CFRelease(dest);
+			CGImageRelease(tmp);
+			CGContextRelease(ImgContext);
+			char r[1000], out[1000];
+			[[[savePanel URL] relativePath] getCString:r maxLength:1000 encoding:[NSString defaultCStringEncoding]];
+			sprintf(out, "%s.info.txt", r);
+			FILE *info = fopen(out, "w");
+			
+			fprintf(info, "Origin : %f %f \n", Origin.x, Origin.y);
+			fprintf(info, "End : %f %f \n", End.x, End.y);
+			
+			fclose(info);
+			
+        }
+    }];
+	
 }
 
 - (RGBA)RGBfromHSV:(HSV)value

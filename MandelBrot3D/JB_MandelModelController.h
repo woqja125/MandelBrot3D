@@ -23,6 +23,9 @@ typedef struct
     double v;       // percent [0 - 1]
 } HSV;
 
+@class JB_2DMandelView;
+@class JB_3DMandelView;
+
 @interface JB_MandelModelController : NSObject
 {
 	NSPoint Origin, End, Data[801][601];
@@ -38,7 +41,8 @@ typedef struct
 	bool DataChanged;
 	int SizeChangedNum;
 	
-	IBOutlet NSOpenGLView *View1, *View2;
+	IBOutlet JB_2DMandelView *View2D;
+	IBOutlet JB_3DMandelView *View3D;
 }
 -(RGBA*)getColorArray;
 -(int*) getIterArray;

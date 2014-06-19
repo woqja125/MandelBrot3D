@@ -39,5 +39,6 @@
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
+- (GLfloat*)getImgData;
 
 @end
