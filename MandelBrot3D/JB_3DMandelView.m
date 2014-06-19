@@ -26,12 +26,15 @@
 			Index[indexCnt++] = (i+1)*601+(j+1);
 			Index[indexCnt++] = (i)*601+(j+1);
 		}
+		data = malloc(sizeof(GLfloat)*self.frame.size.height * self.frame.size.width * 3 + 100);
 	}
 	return self;
 }
 
 - (void)viewDidMoveToWindow
 {
+	free(data);
+	data = malloc(sizeof(GLfloat)*self.frame.size.height * self.frame.size.width * 3 + 100);
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowResized:) name:NSWindowDidResizeNotification object:[self window]];
 }
 
@@ -211,6 +214,9 @@
 	glPopMatrix();
 	
 	glFlush();
+	int w = self.frame.size.width;
+	int h = self.frame.size.height;
+	glReadPixels(0, 0, w, h, GL_RGB, GL_FLOAT, data);
 }
 
 -(void)keyDown:(NSEvent *)theEvent
@@ -268,6 +274,52 @@
 -(IBAction)LineCheckBoxChanged:(id)sender {ShowLine = !ShowLine;[self setNeedsDisplay:true];}
 
 -(IBAction)CurveCheckBoxChanged:(id)sender {ShowCurveOnDiv = !ShowCurveOnDiv;[self setNeedsDisplay:true];}
+
+-(IBAction)saveByImage:(id)sender
+{
+	//printf("save\n");
+	int w = self.frame.size.width;
+	int h = self.frame.size.height;
+	
+	
+	NSSavePanel * savePanel = [NSSavePanel savePanel];
+    [savePanel setAllowedFileTypes:@[@"png"]];
+    [savePanel setDirectoryURL:[NSURL URLWithString:@"~/Desktop"]];
+    [savePanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            // Close panel before handling errors
+            [savePanel orderOut:self];
+            // Do what you need to do with the selected path
+			
+			CGContextRef ImgContext = CGBitmapContextCreate(0, w, h, 8, (int)w*4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
+			
+			int c = 0;
+			
+			for(int i=0; i<h; i++)
+			{
+				for(int j=0; j<w; j++)
+				{
+					CGContextSetRGBFillColor(ImgContext, data[c*3+0], data[c*3+1], data[c*3+2], 1);
+					CGContextFillRect(ImgContext, CGRectMake(j, i, 1, 1));
+					c++;
+				}
+			}
+			
+			CGImageRef tmp =  CGBitmapContextCreateImage(ImgContext);
+			CFURLRef tempURL = (__bridge CFURLRef)([savePanel URL]);
+			CGImageDestinationRef dest = CGImageDestinationCreateWithURL(tempURL, kUTTypePNG, 1, NULL);
+			CGImageDestinationAddImage(dest, tmp, nil);
+			if (!CGImageDestinationFinalize(dest)) {
+				NSLog(@"Failed to write image to");
+			}
+			//CFRelease(tempURL);
+			CFRelease(dest);
+			CGImageRelease(tmp);
+			CGContextRelease(ImgContext);
+        }
+    }];
+	
+}
 
 -(IBAction)ResetView:(id)sender {[self ResetSetting];[self setNeedsDisplay:true];}
 

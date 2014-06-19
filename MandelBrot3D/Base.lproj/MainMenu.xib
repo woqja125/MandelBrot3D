@@ -97,7 +97,11 @@
                                     <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Save…" keyEquivalent="s" id="pxx-59-PXV"/>
+                            <menuItem title="Save…" keyEquivalent="s" id="pxx-59-PXV">
+                                <connections>
+                                    <action selector="saveByImage:" target="9As-ga-iGK" id="s0q-1L-UIs"/>
+                                </connections>
+                            </menuItem>
                             <menuItem title="Save As…" keyEquivalent="S" id="Bw7-FT-i3A">
                                 <connections>
                                     <action selector="saveDocumentAs:" target="-1" id="mDf-zr-I0C"/>
@@ -739,6 +743,21 @@
                         </buttonCell>
                         <connections>
                             <action selector="ResetView:" target="9As-ga-iGK" id="AdJ-2X-cC1"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QBH-c2-mUH">
+                        <rect key="frame" x="1034" y="46" width="162" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="NHm-sJ-LGz"/>
+                            <constraint firstAttribute="width" constant="150" id="Seh-aR-8ox"/>
+                        </constraints>
+                        <buttonCell key="cell" type="push" title="Save Image" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="38w-vE-8Ir">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="saveByImage:" target="9As-ga-iGK" id="dYZ-HN-Stf"/>
                         </connections>
                     </button>
                 </subviews>

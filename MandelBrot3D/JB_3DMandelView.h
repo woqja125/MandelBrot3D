@@ -34,6 +34,8 @@
 	float nor[(801*601+10000)*3];
 	
 	unsigned Index[(800*600+10000)*6], indexCnt;
+	
+	GLfloat *data;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder;
