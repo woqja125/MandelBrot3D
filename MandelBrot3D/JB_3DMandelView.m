@@ -101,6 +101,8 @@
 	
 	float *H = [Data getHArray];
 	int *I = [Data getIterArray];
+	RGBA *C = [Data getColorArray];
+	
 	for(int i=0; i<801; i++)for(int j=0; j<601; j++)
 	{
 		
@@ -112,10 +114,9 @@
 		
 		if(ShowColor)
 		{
-			RGBA t = [Data getColor:i :j];
-			col[ind*3] = t.r;
-			col[ind*3+1] = t.g;
-			col[ind*3+2] = t.b;
+			col[ind*3] = C[ind].r;
+			col[ind*3+1] = C[ind].g;
+			col[ind*3+2] = C[ind].b;
 		}
 		else if(I[ind] == -1)
 		{

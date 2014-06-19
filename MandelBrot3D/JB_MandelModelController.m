@@ -123,9 +123,9 @@ const int Height = 600;
 	}
 }
 
--(RGBA)getColor:(int)x :(int)y
+-(RGBA*)getColorArray
 {
-	return Color[x][y];
+	return &Color[0][0];
 }
 
 -(int*) getIterArray;

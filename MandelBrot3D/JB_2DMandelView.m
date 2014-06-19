@@ -47,6 +47,7 @@
 	int index = 0;
 
 	int *I = [Data getIterArray];
+	RGBA *C = [Data getColorArray];
 	
 	for(int i=0; i<400; i++)for(int j=0; j<300; j++)
 	{
@@ -60,10 +61,9 @@
 		}
 		else
 		{
-			RGBA t = [Data getColor:i*2 :j*2];
-			Col[index*3+0] = t.r;
-			Col[index*3+1] = t.g;
-			Col[index*3+2] = t.b;
+			Col[index*3+0] = C[i*2*601+j*2].r;
+			Col[index*3+1] = C[i*2*601+j*2].g;
+			Col[index*3+2] = C[i*2*601+j*2].b;
 		}
 		index++;
 	}
