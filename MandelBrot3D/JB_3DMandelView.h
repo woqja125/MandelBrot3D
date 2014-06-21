@@ -38,7 +38,10 @@
 	GLfloat *data;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder;
-- (GLfloat*)getImgData;
+-(id)initWithCoder:(NSCoder *)aDecoder;
+-(GLfloat*)getImgData;
+-(bool)getShowLine;
+-(bool)getShowColor;
+-(bool)getShowCurve;
 
 @end

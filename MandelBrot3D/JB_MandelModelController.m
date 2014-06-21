@@ -219,7 +219,6 @@ const int Height = 600;
 			if (!CGImageDestinationFinalize(dest)) {
 				NSLog(@"Failed to write image to");
 			}
-			//CFRelease(tempURL);
 			CFRelease(dest);
 			CGImageRelease(tmp);
 			CGContextRelease(ImgContext);
@@ -228,8 +227,11 @@ const int Height = 600;
 			sprintf(out, "%s.info.txt", r);
 			FILE *info = fopen(out, "w");
 			
-			fprintf(info, "Origin : %f %f \n", Origin.x, Origin.y);
-			fprintf(info, "End : %f %f \n", End.x, End.y);
+			fprintf(info, "X : %f ~ %f \n", Origin.x, End.x);
+			fprintf(info, "Y : %f ~ %f \n", Origin.y, End.y);
+			fprintf(info, "Show Only Line : %s\n", [View3D getShowLine]?"YSE":"NO");
+			fprintf(info, "Show Color : %s\n", [View3D getShowColor]?"YSE":"NO");
+			fprintf(info, "Show CurveOnDivergencePoint : %s\n", [View3D getShowCurve]?"YES":"NO");
 			
 			fclose(info);
 			

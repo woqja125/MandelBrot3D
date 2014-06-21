@@ -304,6 +304,10 @@
 	return data;
 }
 
+-(bool)getShowLine{return ShowLine;}
+-(bool)getShowColor{return ShowColor;}
+-(bool)getShowCurve{return ShowCurveOnDiv;}
+
 -(void)scrollWheel:(NSEvent *)theEvent
 {
 	magni *= [theEvent deltaY]*0.01 + 1;
